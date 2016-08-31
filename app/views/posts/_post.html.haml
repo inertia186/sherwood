@@ -1,0 +1,43 @@
+.card{ng_controller: 'PostCardCtrl', in_view_container: true, in_view: 'showCard ? showCard : showCard = $inview', in_view_options: '{ debounce: 100 }'}
+  .card-block
+    .card-title
+      .list-group-item-heading
+        %strong= link_to post.title, post.canonical_url, target: '_new'
+        .pull-xs-right.nga-default.nga-stagger-slow.nga-fade{ng_if: 'showCard'}
+          %small
+            Post by:
+            = link_to "@#{post.author}", "https://steemit.com/@#{post.author}", target: '_new'
+            %br
+            Added by:
+            = post.editing_user.nick
+            = surround '(', ')' do
+              %relative_timestamp= post.created_at.iso8601
+      %p.list-group-item-text
+        = post.content.category
+  - if post.content?
+    %ul.list-group.list-group-flush.nga-fast.nga-rotate-up{ng_if: 'showCard'}
+      %li.list-group-item
+        %span
+          Total Payout:
+          = post.content.total_payout_value
+          |
+        %span
+          Pending Payout:
+          = post.content.pending_payout_value
+          |
+        %span
+          Votes:
+          = post.content.active_votes.size
+        %small.pull-xs-right
+          Posted:
+          %relative_timestamp= post.content.created + 'Z'
+          
+  .card-block
+    .row
+      .col-sm-6
+        .btn-group
+          = link_to 'Edit', edit_project_post_path(post.project, post), class: 'btn btn-info btn-sm card-link'
+      .col-sm-6
+        .pull-xs-right.btn-group
+          = link_to 'Delete', project_post_path(post.project, post), method: :delete, data: {confirm: 'Are you sure?', remote: true}, class: 'btn btn-danger btn-sm card-link'
+  

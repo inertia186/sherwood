@@ -1,0 +1,21 @@
+%h1 Edit Profile
+
+= form_for @user, url: account_path do |f|
+  .container
+    .row
+      .col-sm-3
+      .col-sm-6
+        - if @user.errors.any?
+          %form-errors{data: {errors: @user.errors.full_messages.to_json}}
+        %fieldset.form-group
+          = f.label :email
+          = f.text_field :email, class: 'form-control'
+        %fieldset.form-group
+          = f.label :password
+          = f.password_field :password, class: 'form-control'
+        %fieldset.form-group
+          = f.label :password_confirmation
+          = f.password_field :password_confirmation, class: 'form-control'
+        %fieldset.form-group
+          = f.submit class: 'btn btn-primary'
+      .col-sm-3

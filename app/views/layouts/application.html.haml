@@ -1,0 +1,59 @@
+!!!
+%html
+  %head
+    %title Sherwood
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+    %meta{name: :viewport, content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no'}
+    %meta{name: 'apple-mobile-web-app-capable', content: :yes}
+  %body
+    .container-fluid
+      %nav.navbar.navbar-fixed-top.navbar-light.bg-faded
+        .container-fluid
+          - if current_user
+            .dropdown.pull-xs-right
+              %a.nav-link.dropdown-toggle{data: {toggle: :dropdown}, href: '#', uib_tooltip: current_user.email, tooltip_placement: 'left'}
+                =current_user.nick
+              .dropdown-menu
+                .dropdown-item
+                  %span.glyphicon.glyphicon-dashboard
+                  = link_to "Dashboard", dashboard_path
+                - if (projects = Project.all).any?
+                  .dropdown-item
+                    = form_tag project_posts_path(projects.last.id), method: :get, class: 'form-inline' do
+                      = hidden_field_tag :limit, 10
+                      .form-group
+                        %span.glyphicon.glyphicon-search
+                        = text_field_tag :query, '', placeholder: 'Quick Query', class: 'form-control form-control-sm'
+                .dropdown-item
+                  %span.glyphicon.glyphicon-plus
+                  = link_to "New Post", new_project_post_path(projects.last)
+                .dropdown-divider
+                .dropdown-item
+                  %span.glyphicon.glyphicon-edit
+                  = link_to "Edit Account", edit_account_path
+                .dropdown-item
+                  %span.glyphicon.glyphicon-minus-sign
+                  = link_to "Log out", log_out_path
+          - else
+            %p &nbsp;
+            -# %ul.nav.navbar-nav.pull-xs-right
+            -#   %li.nav-item
+            -#     = link_to sign_up_path, class: 'nav-link', uib_tooltip: 'Sign up so you can do the thing.', tooltip_placement: 'left' do
+            -#       %span.glyphicon.glyphicon-user
+            -#       Sign Up
+            -#   %li.nav-item
+            -#     = link_to log_in_path, class: 'nav-link', uib_tooltip: 'You can do the thing if you already have an account.', tooltip_placement: 'left' do
+            -#       %span.glyphicon.glyphicon-plus-sign
+            -#       Log In
+    .row.col-sm-12
+      %hr
+      %hr
+      %hr
+    .row
+      .col-sm-12
+        .alert-container
+          %flash{'flash-message' => 5000, data: {messages: flash.to_json}}
+        .container
+          = yield

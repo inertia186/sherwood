@@ -1,0 +1,4 @@
+.jumbotron.bg-faded
+  %post_card{data: {post_id: @post.id}}
+  
+= link_to 'Back', project_posts_path(@post.project_id), class: 'btn btn-primary'

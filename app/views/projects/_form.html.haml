@@ -1,0 +1,18 @@
+= form_for @project do |f|
+  .container
+    .row
+      .col-sm-3
+      .col-sm-6
+        - if @project.errors.any?
+          %form-errors{data: {errors: @project.errors.full_messages.to_json}}
+        %fieldset.form-group
+          = f.label :name
+          = f.text_field :name, class: 'form-control'
+          %small.text-muted E.g.: Sandbox
+        %fieldset.form-group
+          = f.label :code, 'code'
+          = f.text_field :code, class: 'form-control'
+        %fieldset.form-group
+          = f.submit class: 'btn btn-primary'
+          = link_to 'Back', projects_path, class: 'btn btn-info pull-xs-right'
+      .col-sm-3

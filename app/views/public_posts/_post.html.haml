@@ -1,0 +1,6 @@
+%tr
+  %td= link_to post.author, "https://steemit.com/@#{post.author}"
+  %td
+    %relative_timestamp= post.created_at.iso8601
+  %td= post.content.pending_payout_value
+  %td= link_to post.title, post.canonical_url

@@ -1,0 +1,22 @@
+.row
+  .col-sm-12
+    %h1 Log in
+.row
+  .col-sm-12
+    = form_tag session_path do
+      .container{ng_controller: 'SessionCtrl'}
+        .row
+          .col-sm-3
+          .col-sm-6
+                
+            %fieldset.form-group
+              = label_tag :email, 'E-mail', class: 'control-label'
+              = text_field_tag :email, params[:email], class: 'form-control', ng_model: 'email', splatnit: true
+            %fieldset.form-group{ng_class: "{'has-danger' : passwordProblem}"}
+              = label_tag :password, 'Password', class: 'control-label'
+              = password_field_tag :password, '', class: 'form-control', ng_class: "{'form-control-danger' : passwordProblem}", ng_model: 'password', splatnit: true
+            %fieldset.form-group
+              = button_tag type: :submit, class: 'btn btn-primary', ng_disabled: 'email.length == 0 || passwordProblem' do
+                Log In
+                %span.glyphicon.glyphicon-plus-sign
+          .col-sm-3

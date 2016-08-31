@@ -1,0 +1,16 @@
+%h3 Welcome to Sherwood ...
+%ol
+  %li Collect steemit posts.
+  %li ...
+  %li Profit!
+  
+%hr
+  
+%h5 Posts
+
+%blockquote.blockquote
+  %p There are currently #{pluralize Post.count, 'posts'} in the system.
+
+= render partial: 'saved_queries'
+
+= link_to 'Projects', projects_path, class: 'btn btn-info'

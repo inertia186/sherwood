@@ -1,0 +1,16 @@
+- cache ['posts-query', params, (!!@project ? @project.cache_key : Time.now)] do
+  = render partial: 'query'
+  
+.row
+  .col-sm-12
+    %hr
+.row
+  .col-sm-12
+    - @posts.each do |post|
+      %post_card{data: {post_id: post.id}}
+
+.row
+  .col-sm-12
+    = link_to 'Back', projects_path(@project), class: 'btn btn-info btn-sm'
+    - if !!@project
+      = link_to 'New', new_project_post_path(@project), class: 'btn btn-info btn-sm'

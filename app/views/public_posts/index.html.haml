@@ -1,0 +1,11 @@
+%h1= @project.name
+
+%table.table
+  %thead.thead-inverse
+    %tr
+      %th Author
+      %th Added
+      %th Payment
+      %th Post
+    - @posts.each do |post|
+      = render partial: 'post', object: post, as: :post

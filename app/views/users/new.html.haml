@@ -1,0 +1,24 @@
+%h1 Sign Up
+
+= form_for @user do |f|
+  .container
+    .row
+      .col-sm-3
+      .col-sm-6
+        - if @user.errors.any?
+          %form-errors{data: {errors: @user.errors.full_messages.to_json}}
+        %fieldset.form-group
+          = f.label :nick, class: 'control-label'
+          = f.text_field :nick, class: 'form-control'
+        %fieldset.form-group
+          = f.label :email, class: 'control-label'
+          = f.text_field :email, class: 'form-control'
+        %fieldset.form-group
+          = f.label :password, class: 'control-label'
+          = f.password_field :password, class: 'form-control'
+        %fieldset.form-group
+          = f.label :password_confirmation, class: 'control-label'
+          = f.password_field :password_confirmation, class: 'form-control'
+        %fieldset.form-group
+          = f.submit class: 'btn btn-primary'
+      .col-sm-3
