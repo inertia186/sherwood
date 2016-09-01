@@ -8,4 +8,5 @@
       %th Payment
       %th Post
     - @posts.each do |post|
-      = render partial: 'post', object: post, as: :post
+      - cache ['public-post', params, post.cache_key] do
+        = render partial: 'post', object: post, as: :post
