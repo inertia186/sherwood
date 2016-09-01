@@ -10,5 +10,4 @@
       %th{scope: :row} Post
     %tbody
       - @posts.each do |post|
-        - cache ['public-post', params, post.cache_key] do
-          = render partial: 'post', object: post, as: :post
+        = render partial: 'post', object: post, as: :post
