@@ -4,4 +4,4 @@
     %relative_timestamp= post.created_at.iso8601
   %td= post.content.pending_payout_value
   %td= post.content.active_votes.size
-  %td= link_to truncate(post.title, length: 100), post.canonical_url
+  %td= link_to truncate(post.title, length: 80), post.canonical_url

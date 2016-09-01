@@ -10,7 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160901020710) do
+ActiveRecord::Schema.define(version: 20160901060823) do
+
+  create_table "memberships", force: :cascade do |t|
+    t.integer  "project_id", null: false
+    t.integer  "user_id",    null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id", "user_id"], name: "index_memberships_on_project_id_and_user_id", unique: true
+  end
 
   create_table "posts", force: :cascade do |t|
     t.string   "status",            default: "proposed", null: false
@@ -21,7 +29,7 @@ ActiveRecord::Schema.define(version: 20160901020710) do
     t.datetime "updated_at",                             null: false
     t.text     "content_cache"
     t.datetime "content_cached_at"
-    t.index ["slug"], name: "index_posts_on_slug", unique: true
+    t.index ["slug"], name: "index_posts_on_slug"
   end
 
   create_table "projects", force: :cascade do |t|

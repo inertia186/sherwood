@@ -28,7 +28,7 @@
                         = text_field_tag :query, '', placeholder: 'Quick Query', class: 'form-control form-control-sm'
                 .dropdown-item
                   %span.glyphicon.glyphicon-plus
-                  = link_to "New Post", new_project_post_path(projects.last)
+                  = link_to "New Post", new_project_post_path(current_project)
                 .dropdown-divider
                 .dropdown-item
                   %span.glyphicon.glyphicon-edit

@@ -36,8 +36,10 @@
     .row
       .col-sm-6
         .btn-group
-          = link_to 'Edit', edit_project_post_path(post.project, post), class: 'btn btn-info btn-sm card-link'
+          - if current_user_has_membership?(post.project)
+            = link_to 'Edit', edit_project_post_path(post.project, post), class: 'btn btn-info btn-sm card-link'
       .col-sm-6
         .pull-xs-right.btn-group
-          = link_to 'Delete', project_post_path(post.project, post), method: :delete, data: {confirm: 'Are you sure?', remote: true}, class: 'btn btn-danger btn-sm card-link'
+          - if current_user_has_membership?(post.project)
+            = link_to 'Delete', project_post_path(post.project, post), method: :delete, data: {confirm: 'Are you sure?', remote: true}, class: 'btn btn-danger btn-sm card-link'
   

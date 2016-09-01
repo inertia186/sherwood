@@ -1,4 +1,6 @@
 class ProjectsController < ApplicationController
+  before_filter :current_user_has_membership, only: [:update, :destroy]
+  
   respond_to :js
   
   def index
@@ -27,6 +29,7 @@ class ProjectsController < ApplicationController
     @project = Project.new(project_params)
     
     if @project.save
+      @project.members << current_user unless @project.members.include? current_user
       return_or_redirect_to projects_url, notice: 'Project created.'
     else
       render 'new'
@@ -60,7 +63,7 @@ class ProjectsController < ApplicationController
   end
 private
   def project_params
-    attributes = [:name, :code]
+    attributes = [:name, :code, member_ids: []]
 
     params.require(:project).permit *attributes
   end

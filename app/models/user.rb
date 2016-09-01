@@ -13,7 +13,8 @@ class User < ActiveRecord::Base
     assoc.has_many :edited_posts, class_name: 'Post', foreign_key: :editing_user_id
   end
   
-  has_many :projects, through: :edited_posts
+  has_many :memberships
+  has_many :projects, through: :memberships
 
   def self.authenticate(email, password)
     user = find_by_email(email)

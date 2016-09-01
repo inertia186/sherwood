@@ -2,7 +2,7 @@ class Post < ActiveRecord::Base
   belongs_to :project
   belongs_to :editing_user, class_name: 'User', foreign_key: :editing_user_id
   
-  validates_uniqueness_of :slug
+  validates_uniqueness_of :slug, scope: :project
   validates_format_of :slug, with: /@[a-z0-9\-\.]+\/.*/
   validate :on_blockchain, if: :slug_changed?
 

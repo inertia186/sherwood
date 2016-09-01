@@ -10,8 +10,13 @@
           = f.text_field :name, class: 'form-control'
           %small.text-muted E.g.: Sandbox
         %fieldset.form-group
-          = f.label :code, 'code'
+          = f.label :code
           = f.text_field :code, class: 'form-control'
+        %fieldset.form-group
+          = f.label :members
+          = select_tag 'project[member_ids]', options_for_select(User.all.map { |u| [u.nick, u.id] }, @project.member_ids),
+            multiple: true,
+            class: 'form-control form-control-sm', data: {chosen: true}
         %fieldset.form-group
           = f.submit class: 'btn btn-primary'
           = link_to 'Back', projects_path, class: 'btn btn-info pull-xs-right'

@@ -12,5 +12,5 @@
 .row
   .col-sm-12
     = link_to 'Back', projects_path(@project), class: 'btn btn-info btn-sm'
-    - if !!@project
+    - if !!@project && current_user_has_membership?(@project)
       = link_to 'New', new_project_post_path(@project), class: 'btn btn-info btn-sm'

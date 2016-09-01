@@ -1,9 +1,10 @@
 class PostsController < ApplicationController
+  before_filter :current_user_has_membership, only: [:create, :update, :destroy]
   respond_to :js, :json
   
   def index
-    @posts = Post.all
     @project = Project.find params[:project_id] if params[:project_id]
+    @posts = @project.posts
   end
   
   def show
