@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160901174709) do
+ActiveRecord::Schema.define(version: 20160901204939) do
 
   create_table "memberships", force: :cascade do |t|
     t.integer  "project_id", null: false
@@ -21,16 +21,23 @@ ActiveRecord::Schema.define(version: 20160901174709) do
   end
 
   create_table "posts", force: :cascade do |t|
-    t.string   "status",            default: "proposed", null: false
-    t.string   "slug",                                   null: false
-    t.integer  "project_id",                             null: false
-    t.integer  "editing_user_id",                        null: false
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
+    t.string   "status",                default: "proposed", null: false
+    t.string   "slug",                                       null: false
+    t.integer  "project_id",                                 null: false
+    t.integer  "editing_user_id",                            null: false
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
     t.text     "content_cache"
     t.datetime "content_cached_at"
     t.text     "notes"
-    t.boolean  "flagged",           default: false,      null: false
+    t.boolean  "flagged",               default: false,      null: false
+    t.string   "steem_id"
+    t.string   "steem_author"
+    t.string   "steem_permlink"
+    t.string   "steem_category"
+    t.string   "steem_parent_permlink"
+    t.string   "steem_created"
+    t.string   "steem_url"
     t.index ["slug"], name: "index_posts_on_slug"
   end
 

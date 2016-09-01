@@ -9,7 +9,7 @@
         .pull-xs-right.nga-default.nga-stagger-slow.nga-fade{ng_if: 'showCard'}
           %small
             Post by:
-            = link_to "@#{post.author}", "https://steemit.com/@#{post.author}", target: '_new'
+            = link_to "@#{post.steem_author}", "https://steemit.com/@#{post.steem_author}", target: '_new'
             %br
             Added by:
             = post.editing_user.nick

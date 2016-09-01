@@ -4,9 +4,11 @@
       .glyphicon.glyphicon-flag
     - else
       .glyphicon.glyphicon-ok
-  %td= link_to post.author, "https://steemit.com/@#{post.author}"
+  %td= link_to post.steem_author, "https://steemit.com/@#{post.steem_author}"
   %td
     %relative_timestamp= post.created_at.iso8601
-  %td= post.content.pending_payout_value
+  %td
+    %span{uib_tooltip: public_post_detailed_payout(post)}
+      = post.content.pending_payout_value
   %td= post.content.active_votes.size
   %td= link_to truncate(post.title, length: 80), post.canonical_url

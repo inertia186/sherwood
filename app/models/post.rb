@@ -35,22 +35,24 @@ class Post < ActiveRecord::Base
   end
   
   def canonical_url
-    "https://steemit.com/#{category}/#{slug}"
-  end
-  
-  def author
-    slug.split('/').first.split('@').last
-  end
-  
-  def permlink
-    slug.split('/')[1..-1].join
+    "https://steemit.com#{steem_url}"
   end
   
   def content
     if content_cache.nil?
       api = Radiator::Api.new(RADIATOR_OPTIONS)
-      self.content_cache = api.get_content(author, permlink).result.to_json
+      author = slug.split('/').first.split('@').last
+      permlink = slug.split('/')[1..-1].join
+      content = api.get_content(author, permlink).result
+      self.content_cache = content.to_json
       self.content_cached_at = Time.now
+      self.steem_id ||= content.id
+      self.steem_author ||= content.author
+      self.steem_permlink ||= content.permlink
+      self.steem_category ||= content.category
+      self.steem_parent_permlink ||= content.parent_permlink
+      self.steem_created ||= content.created
+      self.steem_url ||= content.url
       save
     end
     
@@ -69,10 +71,6 @@ class Post < ActiveRecord::Base
   
   def title
     content.title.empty? ? slug : content.title
-  end
-  
-  def category
-    content.category.empty? ? 'tag' : content.category
   end
   
   def cache_key
