@@ -2,3 +2,4 @@
   %post_card{data: {post_id: @post.id}}
   
 = link_to 'Back', project_posts_path(@post.project_id), class: 'btn btn-primary'
+= link_to 'Create Another', new_project_post_path(@post.project_id), class: 'btn btn-primary'

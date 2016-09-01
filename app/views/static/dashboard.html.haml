@@ -5,12 +5,13 @@
   %li Profit!
   
 %hr
-  
-%h5 Posts
 
-%blockquote.blockquote
-  %p There are currently #{pluralize Post.count, 'posts'} in the system.
+- Project.all.each do |project|
+  %h3= project.name
+  = link_to "Posts (#{project.posts.count})", project_posts_path(project), class: 'btn btn-primary btn-sm', uib_tooltip: project_stats(project)
 
 = render partial: 'saved_queries'
+
+%hr
 
 = link_to 'Projects', projects_path, class: 'btn btn-info'

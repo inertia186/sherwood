@@ -36,17 +36,18 @@
                 .dropdown-item
                   %span.glyphicon.glyphicon-minus-sign
                   = link_to "Log out", log_out_path
+          - elsif controller_name != 'public_posts'
+            %ul.nav.navbar-nav.pull-xs-right
+              %li.nav-item
+                = link_to sign_up_path, class: 'nav-link', uib_tooltip: 'Sign up so you can do the thing.', tooltip_placement: 'left' do
+                  %span.glyphicon.glyphicon-user
+                  Sign Up
+              %li.nav-item
+                = link_to log_in_path, class: 'nav-link', uib_tooltip: 'You can do the thing if you already have an account.', tooltip_placement: 'left' do
+                  %span.glyphicon.glyphicon-plus-sign
+                  Log In
           - else
             %p &nbsp;
-            -# %ul.nav.navbar-nav.pull-xs-right
-            -#   %li.nav-item
-            -#     = link_to sign_up_path, class: 'nav-link', uib_tooltip: 'Sign up so you can do the thing.', tooltip_placement: 'left' do
-            -#       %span.glyphicon.glyphicon-user
-            -#       Sign Up
-            -#   %li.nav-item
-            -#     = link_to log_in_path, class: 'nav-link', uib_tooltip: 'You can do the thing if you already have an account.', tooltip_placement: 'left' do
-            -#       %span.glyphicon.glyphicon-plus-sign
-            -#       Log In
     .row.col-sm-12
       %hr
       %hr

@@ -13,7 +13,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      return_or_redirect_to root_url, notice: "Signed up!"
+      return_or_redirect_to dashboard_url, notice: "Signed up!"
     else
       render "new"
     end
@@ -30,7 +30,7 @@ class UsersController < ApplicationController
     end
     
     if @user.update_attributes(p)
-      return_or_redirect_to root_url, notice: 'Updated.'
+      return_or_redirect_to dashboard_url, notice: 'Updated.'
     else
       render 'edit'
     end

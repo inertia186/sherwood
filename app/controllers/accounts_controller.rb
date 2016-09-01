@@ -14,7 +14,7 @@ class AccountsController < ApplicationController
     end
     
     if @user.update_attributes(p)
-      return_or_redirect_to root_url, notice: 'Account updated.'
+      return_or_redirect_to dashboard_url, notice: 'Account updated.'
     else
       render 'edit'
     end
