@@ -2,6 +2,9 @@
   .card-block
     .card-title
       .list-group-item-heading
+        - if post.flagged?
+          %label.alert.alert-danger.glyphicon.glyphicon-flag
+            Flagged
         %strong= link_to post.title, post.canonical_url, target: '_new'
         .pull-xs-right.nga-default.nga-stagger-slow.nga-fade{ng_if: 'showCard'}
           %small
@@ -32,6 +35,11 @@
           Posted:
           %relative_timestamp= post.content.created + 'Z'
           
+  - if !!post.notes
+    .card-block
+      .list-group-item-text
+        %p= post.notes
+            
   .card-block
     .row
       .col-sm-6
@@ -42,4 +50,3 @@
         .pull-xs-right.btn-group
           - if current_user_has_membership?(post.project)
             = link_to 'Delete', project_post_path(post.project, post), method: :delete, data: {confirm: 'Are you sure?', remote: true}, class: 'btn btn-danger btn-sm card-link'
-  

@@ -9,21 +9,32 @@
     .row
       .col-sm-12
         %fieldset.form-group{ng_class: "{'has-warning' : !!asin_warning}"}
-          = f.label :slug, 'URL'
-          %button.label.label-pill.label-info.pull-xs-right{ng_if: '!!slug', ng_click: 'loadItemDetails($event)'}
-            Fetch Post
+          -# = f.label :slug, 'URL/Permlink'
+          -# %button.label.label-pill.label-info.pull-xs-right{ng_if: '!!slug', ng_click: 'loadItemDetails($event)'}
+          -#   Fetch Post
           = f.text_field :slug, class: 'form-control', autofocus: true, ng_model: 'slug', splatnit: true
           %small.text-muted
             You can paste a steemit URL here.
             %span{ng_if: '!!slug_warning'}
               .alert.alert-warning {{slug_warning}}
-    %fieldset.form-group
-      - if !!@post.project
-        - if @post.persisted?
-          = f.submit 'Save', class: 'btn btn-primary'
-        - else
-          = f.submit 'Create', class: 'btn btn-primary'
-        = link_to 'Cancel', project_posts_path(@post.project_id), class: 'btn btn-info'
-      - else
-        = f.submit class: 'btn btn-primary'
-        = link_to 'Cancel', posts_path, class: 'btn btn-info'
+    .row
+      .col-sm-12
+        %fieldset.form-group
+          = f.label :notes, 'Notes'
+          = f.text_area :notes, class: 'form-control', ng_model: 'notes', splatnit: true
+    .row
+      .col-sm-12
+        = f.check_box :flagged
+        = f.label :flagged, 'Mark as Flagged'
+    .row
+      .col-sm-12
+        %fieldset.form-group
+          - if !!@post.project
+            - if @post.persisted?
+              = f.submit 'Save', class: 'btn btn-primary'
+            - else
+              = f.submit 'Create', class: 'btn btn-primary'
+            = link_to 'Cancel', project_posts_path(@post.project_id), class: 'btn btn-info'
+          - else
+            = f.submit class: 'btn btn-primary'
+            = link_to 'Cancel', posts_path, class: 'btn btn-info'

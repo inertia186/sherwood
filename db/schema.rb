@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160901060823) do
+ActiveRecord::Schema.define(version: 20160901174709) do
 
   create_table "memberships", force: :cascade do |t|
     t.integer  "project_id", null: false
@@ -29,6 +29,8 @@ ActiveRecord::Schema.define(version: 20160901060823) do
     t.datetime "updated_at",                             null: false
     t.text     "content_cache"
     t.datetime "content_cached_at"
+    t.text     "notes"
+    t.boolean  "flagged",           default: false,      null: false
     t.index ["slug"], name: "index_posts_on_slug"
   end
 
