@@ -16,7 +16,7 @@
             = surround '(', ')' do
               %relative_timestamp= post.created_at.iso8601
       %p.list-group-item-text
-        = post.content.category
+        = post.steem_category
   - if post.content?
     %ul.list-group.list-group-flush.nga-fast.nga-rotate-up{ng_if: 'showCard'}
       %li.list-group-item
@@ -33,7 +33,7 @@
           = post.content.active_votes.size
         %small.pull-xs-right
           Posted:
-          %relative_timestamp= post.content.created + 'Z'
+          %relative_timestamp= post.steem_created + 'Z'
           
   - if !!post.notes
     .card-block

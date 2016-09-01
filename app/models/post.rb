@@ -62,6 +62,13 @@ class Post < ActiveRecord::Base
   def content!
     self.content_cache = nil
     self.content_cached_at = nil
+    self.steem_id = nil
+    self.steem_author = nil
+    self.steem_permlink = nil
+    self.steem_category = nil
+    self.steem_parent_permlink = nil
+    self.steem_created = nil
+    self.steem_url = nil
     content
   end
   
