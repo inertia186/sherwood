@@ -5,7 +5,7 @@ class ContentGetterJob < ApplicationJob
     if !!post_id
       !!Post.find(post_id).content
     else
-      !!Post.all.sample.content
+      !!Post.all.sample.content!
     end
   end
 end

@@ -47,12 +47,6 @@ class Post < ActiveRecord::Base
   end
   
   def content
-    if !!content_cache
-      if content_cached_at.nil? || content_cached_at < 5.minutes.ago
-        self.content_cache = nil
-      end
-    end
-    
     if content_cache.nil?
       api = Radiator::Api.new(RADIATOR_OPTIONS)
       self.content_cache = api.get_content(author, permlink).result.to_json
@@ -61,6 +55,12 @@ class Post < ActiveRecord::Base
     end
     
     Hashie::Mash.new(JSON[content_cache])
+  end
+  
+  def content!
+    self.content_cache = nil
+    self.content_cached_at = nil
+    content
   end
   
   def content?
