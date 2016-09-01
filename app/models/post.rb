@@ -43,7 +43,7 @@ class Post < ActiveRecord::Base
   end
   
   def content
-    if !!content_cache && 
+    if !!content_cache
       if content_cached_at.nil? || content_cached_at < 5.minutes.ago
         self.content_cache = nil
       end
