@@ -1,12 +1,14 @@
 %h1= @project.name
 
-%table.table
+%table.table.table-sm.table-striped
   %thead.thead-inverse
     %tr
-      %th Author
-      %th Added
-      %th Payment
-      %th Post
-    - @posts.each do |post|
-      - cache ['public-post', params, post.cache_key] do
-        = render partial: 'post', object: post, as: :post
+      %th{scope: :row} Author
+      %th{scope: :row} Added
+      %th{scope: :row} Payment
+      %th{scope: :row} Votes
+      %th{scope: :row} Post
+    %tbody
+      - @posts.each do |post|
+        - cache ['public-post', params, post.cache_key] do
+          = render partial: 'post', object: post, as: :post
