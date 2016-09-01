@@ -54,7 +54,7 @@ class Post < ActiveRecord::Base
     end
     
     if content_cache.nil?
-      api = Radiator::Api.new
+      api = Radiator::Api.new(RADIATOR_OPTIONS)
       self.content_cache = api.get_content(author, permlink).result.to_json
       self.content_cached_at = Time.now
       save
