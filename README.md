@@ -1,24 +1,32 @@
-# README
+# sherwood
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Sherwood Forrest is a shared group curation tool for tracking posts on steemit.com.
 
-Things you may want to cover:
+### Installation
 
-* Ruby version
+```bash
+$ git clone git@github.com:inertia186/sherwood.git .
+$ bundle install
+$ rake db:migrate
+$ rails s
+```
 
-* System dependencies
+Once the server is running locally, browse to:
 
-* Configuration
+[http://localhost:3000/dashboard](http://localhost:3000/dashboard)
 
-* Database creation
+You can create an account and log in.  Then you can create a project and posts for that project.
 
-* Database initialization
+The public view for posts can be seen by browing to:
 
-* How to run the test suite
+[http://localhost:3000/](http://localhost:3000/)
 
-* Services (job queues, cache servers, search engines, etc.)
+This view does not require an account.
 
-* Deployment instructions
+## Get in touch!
 
-* ...
+If you're using Sherwood, I'd love to hear from you.  Drop me a line and tell me what you think!  I'm @inertia on STEEM.
+  
+## License
+
+I don't believe in intellectual "property".  If you do, consider Sherwood as licensed under a Creative Commons [![CC0](http://i.creativecommons.org/p/zero/1.0/80x15.png)](http://creativecommons.org/publicdomain/zero/1.0/) License.
