@@ -10,15 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160831034352) do
+ActiveRecord::Schema.define(version: 20160901020710) do
 
   create_table "posts", force: :cascade do |t|
-    t.string   "status",          default: "proposed", null: false
-    t.string   "slug",                                 null: false
-    t.integer  "project_id",                           null: false
-    t.integer  "editing_user_id",                      null: false
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
+    t.string   "status",            default: "proposed", null: false
+    t.string   "slug",                                   null: false
+    t.integer  "project_id",                             null: false
+    t.integer  "editing_user_id",                        null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+    t.text     "content_cache"
+    t.datetime "content_cached_at"
     t.index ["slug"], name: "index_posts_on_slug", unique: true
   end
 

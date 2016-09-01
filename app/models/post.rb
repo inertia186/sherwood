@@ -1,6 +1,4 @@
 class Post < ActiveRecord::Base
-  @@CONTENT_CACHE ||= {}
-  
   belongs_to :project
   belongs_to :editing_user, class_name: 'User', foreign_key: :editing_user_id
   
@@ -45,13 +43,20 @@ class Post < ActiveRecord::Base
   end
   
   def content
-    if !!@@CONTENT_CACHE[slug]
-      active = Time.parse(@@CONTENT_CACHE[slug].active)
-      @@CONTENT_CACHE[slug] = nil if active > 5.minutes.ago
+    if !!content_cache && 
+      if content_cached_at.nil? || content_cached_at < 5.minutes.ago
+        self.content_cache = nil
+      end
     end
     
-    api = Radiator::Api.new
-    @@CONTENT_CACHE[slug] ||= api.get_content(author, permlink).result
+    if content_cache.nil?
+      api = Radiator::Api.new
+      self.content_cache = api.get_content(author, permlink).result.to_json
+      self.content_cached_at = Time.now
+      save
+    end
+    
+    Hashie::Mash.new(JSON[content_cache])
   end
   
   def content?
