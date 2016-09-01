@@ -20,6 +20,10 @@ class Post < ActiveRecord::Base
     order(options[:by] => options[:direction])
   }
   
+  after_validation do
+    ContentGetterJob.perform_later(id)
+  end
+  
   def to_param
     "#{id}-#{slug.to_s.parameterize}"
   end
