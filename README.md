@@ -5,7 +5,8 @@ Sherwood Forrest is a shared group curation tool for tracking posts on steemit.c
 ### Installation
 
 ```bash
-$ git clone git@github.com:inertia186/sherwood.git .
+$ git clone git@github.com:inertia186/sherwood.git
+$ cd sherwood
 $ bundle install
 $ rake db:migrate
 $ rails s

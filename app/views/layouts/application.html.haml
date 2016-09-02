@@ -21,14 +21,14 @@
                   = link_to "Dashboard", dashboard_path
                 - if (projects = Project.all).any?
                   .dropdown-item
-                    = form_tag project_posts_path(projects.last.id), method: :get, class: 'form-inline' do
+                    = form_tag project_posts_path(current_project), method: :get, class: 'form-inline' do
                       = hidden_field_tag :limit, 10
                       .form-group
                         %span.glyphicon.glyphicon-search
                         = text_field_tag :query, '', placeholder: 'Quick Query', class: 'form-control form-control-sm'
-                .dropdown-item
-                  %span.glyphicon.glyphicon-plus
-                  = link_to "New Post", new_project_post_path(current_project)
+                  .dropdown-item
+                    %span.glyphicon.glyphicon-plus
+                    = link_to "New Post", new_project_post_path(current_project)
                 .dropdown-divider
                 .dropdown-item
                   %span.glyphicon.glyphicon-edit
