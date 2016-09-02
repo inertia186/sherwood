@@ -1,6 +1,16 @@
 # sherwood
 
-Sherwood Forrest is a shared group curation tool for tracking posts on steemit.com.
+[Sherwood Forrest](https://github.com/inertia186/sherwood) is a shared group curation tool for tracking posts on [steemit.com](https://steemit.com).  Collaboration groups can use it to track posts internally while at the same time, the public page lists the posts so that others can then vote for them on steemit.com.
+
+This is a reference implementation for the
+[Robin Hood Whale](https://steemit.com/@robinhoodwhale) project.
+
+![](https://www.steemimg.com/images/2016/09/02/Statue_of_Robin_Hood_in_Sherwood_Forest_94644ce49.jpg)
+*Statue of Robin Hood in Sherwood Forest; Wikimedia UK; by [Nilfanion](https://commons.wikimedia.org/wiki/User:Nilfanion)*; Creative Commons
+
+This project also serves to demonstrate a Ruby on Rails project that can access the STEEM blockchain using the [Radiator](https://github.com/inertia186/radiator) gem.
+
+---
 
 ### Installation
 
@@ -18,11 +28,11 @@ Once the server is running locally, browse to:
 
 You can create an account and log in.  Then you can create a project and posts for that project.
 
-The public view for posts can be seen by browing to:
+The public view for posts can be seen by browsing to:
 
 [http://localhost:3000/](http://localhost:3000/)
 
-This view does not require an account.
+This public view does not require an account.
 
 ## Get in touch!
 
