@@ -17,7 +17,7 @@ class Post < ActiveRecord::Base
   scope :archived, lambda { |archived = true| status 'archived', archived }
   
   scope :ordered, lambda { |options = {by: :created_at, direction: 'asc'}|
-    options[:by] ||= :created
+    options[:by] ||= :created_at
     options[:direction] ||= 'asc'
     order(options[:by] => options[:direction])
   }
