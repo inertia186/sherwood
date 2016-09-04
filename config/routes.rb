@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       get :card
     end
     resources :posts
+    resources :public_posts, only: :index
   end
   
   resources :posts do

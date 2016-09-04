@@ -4,10 +4,10 @@
   %thead.thead-inverse
     %tr
       %th{scope: :row}
-      %th{scope: :row} Author
-      %th{scope: :row} Added
-      %th{scope: :row} Payment
-      %th{scope: :row} Votes
+      %th{scope: :row}= sortable_header_link_to 'Author', 'steem_author'
+      %th{scope: :row}= sortable_header_link_to 'Added', 'created_at'
+      %th{scope: :row}= sortable_header_link_to 'Payment', 'pending_payout_value'
+      %th{scope: :row}= sortable_header_link_to 'Votes', 'active_votes'
       %th{scope: :row} Post
     %tbody
       - @posts.each do |post|
