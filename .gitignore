@@ -22,3 +22,7 @@
 
 # Ignore contents of code coverage.
 /coverage/*
+
+# Ignore local spec.
+TODO.md
+
