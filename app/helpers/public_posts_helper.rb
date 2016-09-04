@@ -1,6 +1,6 @@
 module PublicPostsHelper
   def public_posts_table_row_class(post)
-    if post.flagged?
+    if post.published? && post.rejected?
       'table-danger'
     else
       nil

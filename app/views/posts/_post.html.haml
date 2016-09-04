@@ -2,9 +2,9 @@
   .card-block
     .card-title
       .list-group-item-heading
-        - if post.flagged?
+        - if post.published?
           %label.alert.alert-danger.glyphicon.glyphicon-flag
-            Flagged
+            Published
         %strong= link_to post.title, post.canonical_url, target: '_new'
         .pull-xs-right.nga-default.nga-stagger-slow.nga-fade{ng_if: 'showCard'}
           %small

@@ -1,7 +1,10 @@
 class Post < ActiveRecord::Base
+  ALLOWED_STATUS = %w(submitted accepted rejected passed)
+  
   belongs_to :project
   belongs_to :editing_user, class_name: 'User', foreign_key: :editing_user_id
   
+  validates :status, inclusion: { in: ALLOWED_STATUS }
   validates_uniqueness_of :slug, scope: :project
   validates_format_of :slug, with: /@[a-z0-9\-\.]+\/.*/
   validate :on_blockchain, if: :slug_changed?
@@ -12,9 +15,12 @@ class Post < ActiveRecord::Base
     end
   }
 
-  scope :proposed, lambda { |proposed = true| status 'proposed', proposed }
-  scope :active, lambda { |active = true| status 'active', active }
-  scope :archived, lambda { |archived = true| status 'archived', archived }
+  scope :submitted, lambda { |proposed = true| status 'submitted', proposed }
+  scope :accepted, lambda { |accepted = true| status 'accepted', accepted }
+  scope :rejected, lambda { |rejected = true| status 'rejected', rejected }
+  scope :passed, lambda { |passed = true| status 'passed', passed }
+  
+  scope :published, lambda { |published = true| where published: published }
   
   scope :ordered, lambda { |options = {by: :created_at, direction: 'asc'}|
     options[:by] ||= :created_at
@@ -23,11 +29,51 @@ class Post < ActiveRecord::Base
   }
   
   after_validation do
-    ContentGetterJob.perform_later(id)
+    ContentGetterJob.perform_later(id) unless Rails.env.test?
   end
   
+  def self.order_by_active_votes(options = {direction: 'asc'})
+    posts = all.sort_by do |post|
+      post.content.active_votes.size
+    end
+    
+    if options[:direction] == 'desc'
+      posts = posts.reverse
+    end
+    
+    posts
+  end
+
+  def self.order_by_pending_payout_value(options = {direction: 'asc'})
+    posts = all.sort_by do |post|
+      post.content.pending_payout_value.split(' ').first
+    end
+    
+    if options[:direction] == 'desc'
+      posts = posts.reverse
+    end
+    
+    posts
+  end
+
   def to_param
     "#{id}-#{slug.to_s.parameterize}"
+  end
+  
+  def submitted?
+    Post.submitted.include? self
+  end
+  
+  def accepted?
+    Post.accepted.include? self
+  end
+  
+  def rejected?
+    Post.rejected.include? self
+  end
+  
+  def passed?
+    Post.passed.include? self
   end
   
   def on_blockchain
