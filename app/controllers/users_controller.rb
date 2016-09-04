@@ -1,12 +1,8 @@
 class UsersController < ApplicationController
-  skip_before_action :authorize_user!, except: %(edit update destroy)
+  skip_before_action :authorize_user!
   
   def new
     @user = User.new
-  end
-  
-  def edit
-    @user = current_user
   end
   
   def create
@@ -16,23 +12,6 @@ class UsersController < ApplicationController
       return_or_redirect_to dashboard_url, notice: "Signed up!"
     else
       render "new"
-    end
-  end
-  
-  def update
-    @user = current_user
-    
-    p = if user_params[:password].blank?
-      user_params.delete(:password).delete(:password_confirmation)
-      user_params
-    else
-      user_params
-    end
-    
-    if @user.update_attributes(p)
-      return_or_redirect_to dashboard_url, notice: 'Updated.'
-    else
-      render 'edit'
     end
   end
 private

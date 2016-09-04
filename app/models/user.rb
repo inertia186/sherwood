@@ -25,19 +25,11 @@ class User < ActiveRecord::Base
     end
   end
   
-  def to_param
-    "#{id}-#{email.parameterize}"
-  end
-  
   def encrypt_password
     if password.present?
       self.password_salt = BCrypt::Engine.generate_salt
       self.password_hash = BCrypt::Engine.hash_secret(password, password_salt)
     end
-  end
-  
-  def cache_key
-    [to_param, updated_at, edited_posts.maximum(:updated_at), projects.maximum(:updated_at)]
   end
 private
   def password_changed?

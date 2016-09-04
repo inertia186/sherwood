@@ -1,5 +1,5 @@
 class ProjectsController < ApplicationController
-  before_filter :current_user_has_membership, only: [:update, :destroy]
+  before_action :current_user_has_membership, only: [:update, :destroy]
   
   respond_to :js
   

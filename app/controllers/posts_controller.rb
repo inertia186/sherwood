@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_filter :current_user_has_membership, only: [:create, :update, :destroy]
+  before_action :current_user_has_membership, only: [:create, :update, :destroy]
   respond_to :js, :json
   
   def index
@@ -29,7 +29,7 @@ class PostsController < ApplicationController
     @post = Post.new(post_params.merge(editing_user: current_user))
     
     if @post.save
-      return_or_redirect_to project_post_url(@post.project_id, @post), notice: 'Post created.'
+      return_or_redirect_to project_post_url(@post.project, @post), notice: 'Post created.'
     else
       render 'new'
     end
@@ -39,7 +39,7 @@ class PostsController < ApplicationController
     @post = Post.find(params[:id])
     
     if @post.update_attributes(post_params)
-      return_or_redirect_to project_post_url(@post.project_id, @post), notice: 'Post updated.'
+      return_or_redirect_to project_post_url(@post.project, @post), notice: 'Post updated.'
     else
       render 'edit'
     end
@@ -50,14 +50,14 @@ class PostsController < ApplicationController
     
     if @post.destroy
       respond_to do |format|
-        format.html { return_or_redirect_to project_posts_url(@post.project_id), notice: 'Post deleted.' }
+        format.html { return_or_redirect_to project_posts_url(@post.project), notice: 'Post deleted.' }
         format.js
       end
     end
   end
 private
   def post_params
-    attributes = [:status, :slug, :project_id, :notes, :flagged]
+    attributes = [:status, :slug, :project_id, :notes, :published]
     
     params.require(:post).permit *attributes
   end
