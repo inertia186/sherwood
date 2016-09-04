@@ -1,0 +1,41 @@
+gilligan:
+  nick: gilligan 
+  email: willyg@minnow.com
+  password_salt: <%= salt = password_salt = BCrypt::Engine.generate_salt %>
+  password_hash:  <%= BCrypt::Engine.hash_secret('password', salt) %>
+  
+skipper:
+  nick: skipper 
+  email: jonasg@minnow.com
+  password_salt: <%= salt = password_salt = BCrypt::Engine.generate_salt %>
+  password_hash:  <%= BCrypt::Engine.hash_secret('password', salt) %>
+
+mrhowell:
+  nick: mrhowell 
+  email: thurston@whale.com
+  password_salt: <%= salt = password_salt = BCrypt::Engine.generate_salt %>
+  password_hash:  <%= BCrypt::Engine.hash_secret('password', salt) %>
+
+lovey:
+  nick: lovey 
+  email: euniceh@whale.com
+  password_salt: <%= salt = password_salt = BCrypt::Engine.generate_salt %>
+  password_hash:  <%= BCrypt::Engine.hash_secret('password', salt) %>
+
+ginger:
+  nick: ginger 
+  email: gingerg@dolphin.com
+  password_salt: <%= salt = password_salt = BCrypt::Engine.generate_salt %>
+  password_hash:  <%= BCrypt::Engine.hash_secret('password', salt) %>
+  
+professor:
+  nick: professor 
+  email: royh@dolphin.com
+  password_salt: <%= salt = password_salt = BCrypt::Engine.generate_salt %>
+  password_hash:  <%= BCrypt::Engine.hash_secret('password', salt) %>
+  
+maryann:
+  nick: maryann 
+  email: maryanns@dolphin.com
+  password_salt: <%= salt = password_salt = BCrypt::Engine.generate_salt %>
+  password_hash:  <%= BCrypt::Engine.hash_secret('password', salt) %>

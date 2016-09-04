@@ -1,0 +1,13 @@
+little_buddy:
+  slug: "@gilligan/little-buddy"
+  project: :rhw
+  editing_user: :skipper
+  published: true
+
+quantum_coconut:
+  slug: "@professor/quantum-coconut"
+  project: :rhw
+  editing_user: :ginger
+  status: rejected
+  published: true
+  notes: plagiarism detected after the fact
