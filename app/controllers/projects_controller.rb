@@ -63,7 +63,7 @@ class ProjectsController < ApplicationController
   end
 private
   def project_params
-    attributes = [:name, :code, member_ids: []]
+    attributes = [:name, :code, :feature_duration_in_days, member_ids: []]
 
     params.require(:project).permit *attributes
   end

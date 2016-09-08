@@ -6,6 +6,7 @@ class Project < ActiveRecord::Base
   
   validates_presence_of :code
   validates_uniqueness_of :code
+  validates_presence_of :feature_duration_in_days
   
   def to_param
     "#{id}-#{code.to_s.parameterize}"

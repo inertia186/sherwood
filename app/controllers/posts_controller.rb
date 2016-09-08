@@ -57,7 +57,7 @@ class PostsController < ApplicationController
   end
 private
   def post_params
-    attributes = [:status, :slug, :project_id, :notes, :published]
+    attributes = [:status, :slug, :project_id, :status, :notes, :published]
     
     params.require(:post).permit *attributes
   end

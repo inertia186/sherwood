@@ -8,7 +8,7 @@
           %form-errors{data: {errors: @post.errors.full_messages.to_json}}
     .row
       .col-sm-12
-        %fieldset.form-group{ng_class: "{'has-warning' : !!asin_warning}"}
+        %fieldset.form-group{ng_class: "{'has-warning' : !!slug_warning}"}
           -# = f.label :slug, 'URL/Permlink'
           -# %button.label.label-pill.label-info.pull-xs-right{ng_if: '!!slug', ng_click: 'loadItemDetails($event)'}
           -#   Fetch Post
@@ -20,12 +20,25 @@
     .row
       .col-sm-12
         %fieldset.form-group
+          = f.label :status
+          = f.select :status, Post::ALLOWED_STATUS, { include_blank: false },
+            class: 'form-control form-control-sm', data: {chosen: true},
+            ng_model: 'status', splatnit: true
+    .row
+      .col-sm-12
+        %fieldset.form-group
           = f.label :notes, 'Notes'
           = f.text_area :notes, class: 'form-control', ng_model: 'notes', splatnit: true
     .row
       .col-sm-12
-        = f.check_box :published
-        = f.label :published, 'Mark as Published'
+        = f.select :published, [['published', true], ['unpublshed', false]], { include_blank: false },
+          class: 'form-control form-control-sm', data: {chosen: true},
+          ng_model: 'published', splatnit: true
+        .small.text-muted{ng_show: "publishWarning()"}
+          Typically, a post should only be published if the status is: accepted
+    .row
+      .col-sm-12
+        %fieldset.form-group
     .row
       .col-sm-12
         %fieldset.form-group

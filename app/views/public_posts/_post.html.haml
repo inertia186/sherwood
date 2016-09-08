@@ -11,4 +11,9 @@
     %span{uib_tooltip: public_post_detailed_payout(post)}
       = post.content.pending_payout_value
   %td= post.content.active_votes.size
-  %td= link_to truncate(post.title, length: 80), post.canonical_url
+  %td
+    - if post.rejected? && !!post.notes
+      = link_to truncate(post.title, length: 80), post.canonical_url,
+        data: { confirm: post.notes }
+    - else
+      = link_to truncate(post.title, length: 80), post.canonical_url

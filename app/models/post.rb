@@ -1,12 +1,18 @@
+include ActionView::Helpers::DateHelper
+
 class Post < ActiveRecord::Base
   ALLOWED_STATUS = %w(submitted accepted rejected passed)
-  
+  HUMANIZED_ATTRIBUTES = {
+    slug: 'Permalink'
+  }
+
   belongs_to :project
   belongs_to :editing_user, class_name: 'User', foreign_key: :editing_user_id
   
   validates :status, inclusion: { in: ALLOWED_STATUS }
   validates_uniqueness_of :slug, scope: :project
   validates_format_of :slug, with: /@[a-z0-9\-\.]+\/.*/
+  validate :author_cooldown
   validate :on_blockchain, if: :slug_changed?
 
   scope :status, lambda { |status_name, status = true|
@@ -22,12 +28,21 @@ class Post < ActiveRecord::Base
   
   scope :published, lambda { |published = true| where published: published }
   
+  scope :in_cooldown, lambda { |author, cooldown|
+    published.where(steem_author: author).
+      where('posts.created_at > ?', cooldown)
+  }
+  
   scope :ordered, lambda { |options = {by: :created_at, direction: 'asc'}|
     options[:by] ||= :created_at
     options[:direction] ||= 'asc'
     order(options[:by] => options[:direction])
   }
   
+  def self.human_attribute_name ( attr, options = {} )
+    HUMANIZED_ATTRIBUTES[attr.to_sym] || super
+  end
+
   after_validation do
     ContentGetterJob.perform_later(id) unless Rails.env.test?
   end
@@ -76,9 +91,28 @@ class Post < ActiveRecord::Base
     Post.passed.include? self
   end
   
+  def author_cooldown
+    if errors.empty?
+      author = slug.split('/').first.split('@').last
+      cooldown_days = project.feature_duration_in_days
+      cooldown = cooldown_days.days.ago
+      posts = project.posts.where.not(id: self).in_cooldown(author, cooldown)
+      
+      if !!author && published? && posts.any?
+        post = posts.ordered.last
+        words = time_ago_in_words(post.created_at)
+        error_message = <<-DONE
+          This project has a #{cooldown_days} day feature limit and @#{author}
+          has already been featured #{words} ago.
+        DONE
+        errors.add(:base, error_message)
+      end
+    end
+  end
+  
   def on_blockchain
     if errors.empty?
-      errors.add(:slug, 'not found') unless content?
+      errors.add(:slug, 'This post not found in blockchain.') unless content?
     end
   end
   

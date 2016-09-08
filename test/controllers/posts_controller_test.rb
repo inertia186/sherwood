@@ -169,6 +169,44 @@ class PostsControllerTest < ActionController::TestCase
     assert_response :success
   end
   
+  def test_update_published
+    post = posts(:little_buddy)
+    
+    process :update, method: :patch, params: { id: post.id, post: post_params.merge(published: true) }
+    _post = assigns :post
+    assert _post.valid?, "expect valid post, got: #{_post.errors.inspect}"
+    
+    assert_template nil
+    assert_redirected_to project_post_path(_post.project, _post)
+  end
+  
+  def test_update_published_not_accepted
+    stub_post_get_content do
+      @project.posts.create(
+        slug: '@gilligan/just-sit-right-back',
+        published: true,
+        editing_user: users(:mrhowell)
+      ).update_columns({
+        # Simulated fields
+        steem_id: "2.8.413183",
+        steem_author: "gilligan",
+        steem_permlink: "just-sit-right-back",
+        steem_url: "/blog/@gilligain/just-sit-right-back"
+      })
+    end
+    
+    post = posts(:little_buddy)
+    
+    process :update, method: :patch, params: {
+      id: post.id, post: post_params.merge(published: true)
+    }
+    _post = assigns :post
+    refute _post.valid?, 'did not expect valid post'
+    
+    assert_template :edit
+    assert_response :success
+  end
+  
   # def test_update_no_project
   #   post = posts(:little_buddy)
   #   post.project.create(
@@ -198,6 +236,7 @@ private
     {
       slug: '@gilligan/little-buddy',
       project_id: @project,
+      published: false
     }
   end
 end
