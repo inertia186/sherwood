@@ -1,4 +1,4 @@
-rhw = Project.create(name: 'Robin Hood Whale', code: 'rhw')
+rhw = Project.create(name: 'Robin Hood Whale', code: 'rhw', feature_duration_in_days: 10)
 rhw = Project.find_by(code: 'rhw')
 user = User.first
 

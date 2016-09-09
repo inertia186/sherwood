@@ -39,6 +39,10 @@ class Post < ActiveRecord::Base
     order(options[:by] => options[:direction])
   }
   
+  scope :query, lambda { |query|
+    where("LOWER(posts.content_cache) LIKE ?", "%#{query.downcase}%")
+  }
+  
   def self.human_attribute_name ( attr, options = {} )
     HUMANIZED_ATTRIBUTES[attr.to_sym] || super
   end

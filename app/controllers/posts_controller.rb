@@ -4,7 +4,21 @@ class PostsController < ApplicationController
   
   def index
     @project = Project.find params[:project_id] if params[:project_id]
-    @posts = @project.posts
+    @query = params[:query]
+    @status = params[:status]
+    @published = params[:published]
+    @limit = params[:limit]
+    
+    @posts = if !!@project
+      @project.posts
+    else
+      Post.all
+    end
+    
+    @posts = @posts.query(@query) if @query.present?
+    @posts = @posts.where(status: @status) if @status.present?
+    @posts = @posts.published(@published == 'true') if @published.present?
+    @posts = @posts.limit(@limit) if @limit.present?
   end
   
   def show

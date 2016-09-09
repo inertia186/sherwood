@@ -6,7 +6,9 @@ class PublicPostsController < ApplicationController
     sort_field = params[:sort_field]
     sort_order = params[:sort_order]
     @project = Project.find params[:project_id]
-    @posts = @project.posts.published
+    cooldown_days = @project.feature_duration_in_days
+    cooldown = cooldown_days.days.ago
+    @posts = @project.posts.published.where('posts.created_at > ?', cooldown)
     
     @posts = if sort_field == 'active_votes'
       @posts.order_by_active_votes(direction: sort_order)
