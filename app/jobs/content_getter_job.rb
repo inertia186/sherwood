@@ -5,7 +5,7 @@ class ContentGetterJob < ApplicationJob
     if !!post_id
       !!Post.find(post_id).content
     else
-      !!Post.all.sample.content!
+      !!Post.steem_archived(false).sample.content!
     end
   end
 end

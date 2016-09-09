@@ -43,6 +43,24 @@ class Post < ActiveRecord::Base
     where("LOWER(posts.content_cache) LIKE ?", "%#{query.downcase}%")
   }
   
+  scope :steem_mode, lambda { |mode, invert = false|
+    where('posts.content_cache LIKE ?', "%\"mode\":\"#{mode}\"%").tap do |r|
+      return invert ? r : where.not(id: r.select(:id))
+    end
+  }
+  
+  scope :steem_first_payout, lambda { |first_payout = true|
+    steem_mode('first_payout', first_payout)
+  } 
+  
+  scope :steem_second_payout, lambda { |second_payout = true|
+    steem_mode('second_payout', second_payout)
+  } 
+  
+  scope :steem_archived, lambda { |archived = true|
+    steem_mode('archived', archived)
+  } 
+  
   def self.human_attribute_name ( attr, options = {} )
     HUMANIZED_ATTRIBUTES[attr.to_sym] || super
   end
@@ -93,6 +111,18 @@ class Post < ActiveRecord::Base
   
   def passed?
     Post.passed.include? self
+  end
+  
+  def steem_first_payout?
+    Post.steem_first_payout.include? self
+  end
+  
+  def steem_second_payout?
+    Post.steem_second_payout.include? self
+  end
+  
+  def steem_archived?
+    Post.steem_archived.include? self
   end
   
   def author_cooldown
@@ -164,6 +194,17 @@ class Post < ActiveRecord::Base
   
   def title
     content.title.empty? ? slug : content.title
+  end
+  
+  def best_payout_value
+    @best_payout_value if !!@best_payout_value
+    
+    total = content.total_payout_value.split(' ').first.to_f
+    curator = content.curator_payout_value.split(' ').first.to_f
+    pending = content.pending_payout_value.split(' ').first.to_f
+    total_pending = content.total_pending_payout_value.split(' ').first.to_f
+    
+    @best_payout_value = "$%.2f" % [past = total + curator, total_pending].max
   end
   
   def cache_key
