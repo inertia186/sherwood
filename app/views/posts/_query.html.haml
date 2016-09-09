@@ -17,7 +17,7 @@
             class: 'form-control form-control-sm', data: { chosen: true }
         .col-xs-6
           .input-group
-            = select_tag :published, options_for_select([['Published ...', nil], ["Yes", true], ["No", false]], @published),
+            = select_tag :published, options_for_select([['Published ...', nil], ["Published: Yes", true], ["Published: No", false]], @published),
             class: 'form-control form-control-sm', data: { chosen: true }
       .row
         .col-xs-9

@@ -13,7 +13,7 @@
   %td= post.content.active_votes.size
   %td
     - if post.rejected? && !!post.notes
-      = link_to truncate(post.title, length: 80), post.canonical_url,
+      = link_to truncate(post.title, length: 75), post.canonical_url,
         data: { confirm: post.notes }
     - else
-      = link_to truncate(post.title, length: 80), post.canonical_url
+      = link_to truncate(post.title, length: 75), post.canonical_url
