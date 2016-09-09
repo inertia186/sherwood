@@ -1,10 +1,10 @@
 %hr
 %ul.list-group
-  %li.list-group-item{class: (count = current_project.posts.submitted.count) == 0 ? 'list-group-item-success' : 'list-group-item-danger'}
+  %li.list-group-item{class: (count = current_project.posts.submitted.count) == 0 ? 'list-group-item-success' : 'list-group-item-warning'}
     = link_to project_posts_path(current_project, status: 'submitted') do
       Submitted
       .label.label-default.label-pill.pull-xs-right= count
   %li.list-group-item.list-group-item-info
-    = link_to project_posts_path(current_project, status: 'accepted') do
+    = link_to project_posts_path(current_project, status: 'accepted', sort_field: 'created_at', sort_order: 'desc') do
       Accepted
       .label.label-default.label-pill.pull-xs-right= current_project.posts.accepted.count
