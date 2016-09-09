@@ -11,6 +11,7 @@
     .container-fluid
       %nav.navbar.navbar-fixed-top.navbar-light.bg-faded
         .container-fluid
+          %span.pull-xs-right &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           - if current_user
             .dropdown.pull-xs-right
               %a.nav-link.dropdown-toggle{data: {toggle: :dropdown}, href: '#', uib_tooltip: current_user.email, tooltip_placement: 'left'}
