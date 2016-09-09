@@ -7,4 +7,4 @@
   %li.list-group-item.list-group-item-info
     = link_to project_posts_path(current_project, status: 'accepted') do
       Accepted
-      .label.label-default.label-pill.pull-xs-right= count
+      .label.label-default.label-pill.pull-xs-right= current_project.posts.accepted.count
