@@ -9,7 +9,7 @@
     %relative_timestamp= post.created_at.iso8601
   %td
     %span{uib_tooltip: public_post_detailed_payout(post)}
-      = post.content.pending_payout_value
+      = post.best_payout_value
   %td= post.content.active_votes.size
   %td
     - if post.rejected? && !!post.notes
