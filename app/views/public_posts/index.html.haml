@@ -1,3 +1,5 @@
+= content_for :head, auto_discovery_link_tag(:atom, "http://#{public_posts_url(project_id: @project.id, format: :atom).split('://')[1]}")
+
 %h1= @project.name
 
 %table.table.table-sm.table-striped
