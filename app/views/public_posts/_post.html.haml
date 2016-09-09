@@ -1,6 +1,6 @@
 %tr{uib_tooltip: post.notes, class: public_posts_table_row_class(post)}
   %td
-    - if post.published?
+    - if post.published? && post.rejected?
       .glyphicon.glyphicon-flag
     - else
       .glyphicon.glyphicon-ok
