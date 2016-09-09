@@ -3,8 +3,13 @@ class ApplicationController < ActionController::Base
   
   before_action :authorize_user!
 
+  helper_method :markdown
   helper_method :current_user, :current_project, :current_user_has_membership?
 private
+  def markdown(string)
+    RDiscount.new(string).to_html.html_safe
+  end
+  
   def authorize_user!
     unless current_user
       flash[:warning] = "Please sign in."

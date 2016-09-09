@@ -39,6 +39,8 @@ gem 'haml', '~> 4.0.7'
 # Access the STEEM blockchain.
 gem 'radiator', github: 'inertia186/radiator'
 
+gem 'rdiscount'
+
 # Assets
 
 gem 'bootstrap-glyphicons', '~> 0.0.1'

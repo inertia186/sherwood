@@ -5,7 +5,7 @@ atom_feed do |feed|
   @posts.each do |post|
     feed.entry post, url: post.canonical_url do |entry|
       entry.title post.content.title
-      entry.content post.content.body
+      entry.content markdown(post.content.body)
       entry.author do |author|
         author.name "@#{post.steem_author}"
       end
