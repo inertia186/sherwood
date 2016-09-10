@@ -3,9 +3,14 @@ class ApplicationController < ActionController::Base
   
   before_action :authorize_user!
 
+  helper_method :steem_api
   helper_method :markdown
   helper_method :current_user, :current_project, :current_user_has_membership?
 private
+  def steem_api
+    @steem_api ||= Radiator::Api.new
+  end
+  
   def markdown(string)
     RDiscount.new(string).to_html.html_safe
   end

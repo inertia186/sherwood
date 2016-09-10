@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     end
     resources :posts
     resources :public_posts, only: :index
+    resources :authors
   end
   
   resources :posts do

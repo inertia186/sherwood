@@ -32,7 +32,11 @@ class Post < ActiveRecord::Base
     published.where(steem_author: author).created(cooldown)
   }
   
-  scope :created, lambda { |date| where('posts.created_at > ?', date) }
+  scope :created, lambda { |date, created = true|
+    where('posts.created_at > ?', date).tap do |r|
+      return created ? r : where.not(id: r.select(:id))
+    end
+  }
   scope :today, lambda { created(Time.now.beginning_of_day) }
   
   scope :ordered, lambda { |options = {by: :created_at, direction: 'asc'}|

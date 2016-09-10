@@ -12,4 +12,28 @@ module ApplicationHelper
     options.permit!
     link_to name, url_for(options)
   end
+
+  def authors(author_names)
+    @steem_authors ||= steem_api.get_accounts(author_names).result
+  end
+  
+  def find_author(author_names, author_name)
+    authors(author_names).select { |a| a.name == author_name }.last
+  end
+  
+  def author_latest_post_class(author_names, author_name)
+    a = find_author(author_names, author_name)
+    date = Time.parse(a.last_post)
+    
+    if 24.hours.ago > date
+      'btn btn-xs btn-secondary'
+    else
+      'btn btn-xs btn-success'
+    end
+  end
+  
+  def author_latest_post(author_names, author_name)
+    a = find_author(author_names, author_name)
+    "(#{time_ago_in_words(Time.parse(a.last_post))} ago)"
+  end
 end

@@ -1,0 +1,24 @@
+%h3 Authors
+
+This is the list of authors who have been featured more than
+=pluralize @project.feature_duration_in_days, 'days'
+ago.  Their posts have been published and not rejected.
+
+%hr
+
+= form_tag 'https://www.random.org/lists/', method: :post do
+  .row
+    .col-sm-6
+      - @authors.sort.each do |author|
+        = link_to "@#{author} #{author_latest_post(@authors, author)}", "https://steemit.com/@#{author}", class: author_latest_post_class(@authors, author)
+    .col-sm-6
+      .row
+        .col-sm-6
+          .input-group
+            = text_area_tag :list, @authors.join("\n"), rows: 15, class: 'form-control'
+        .col-sm-6
+      .row
+        .col-sm-3
+          .input-group
+            = submit_tag 'Randomize', class: 'btn btn-info btn form-control'
+        .col-sm-9
