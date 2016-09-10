@@ -15,6 +15,7 @@
     = p.count
     = surround '(', ')' do
       = "$%.2f" % p.map(&:best_payout_value).sum
+  %hr
 
 = render partial: 'saved_queries'
 
