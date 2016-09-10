@@ -33,6 +33,8 @@ class Post < ActiveRecord::Base
       where('posts.created_at > ?', cooldown)
   }
   
+  scope :today, lambda { where('posts.created_at > ?', Time.now.beginning_of_day) }
+  
   scope :ordered, lambda { |options = {by: :created_at, direction: 'asc'}|
     options[:by] ||= :created_at
     options[:direction] ||= 'asc'
@@ -204,7 +206,11 @@ class Post < ActiveRecord::Base
     pending = content.pending_payout_value.split(' ').first.to_f
     total_pending = content.total_pending_payout_value.split(' ').first.to_f
     
-    @best_payout_value = "$%.2f" % [past = total + curator, total_pending].max
+    @best_payout_value = [past = total + curator, total_pending].max
+  end
+
+  def best_payout_value_formatted
+    "$%.2f" % best_payout_value
   end
   
   def cache_key
