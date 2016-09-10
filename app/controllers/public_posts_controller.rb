@@ -3,8 +3,8 @@ class PublicPostsController < ApplicationController
   respond_to :js, :json
   
   def index
-    sort_field = params[:sort_field]
-    sort_order = params[:sort_order]
+    sort_field = params[:sort_field] || 'created_at'
+    sort_order = params[:sort_order] || 'desc'
     @project = Project.find params[:project_id]
     cooldown_days = @project.feature_duration_in_days
     cooldown = cooldown_days.days.ago
