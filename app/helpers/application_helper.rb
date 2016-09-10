@@ -23,7 +23,7 @@ module ApplicationHelper
   
   def author_latest_post_class(author_names, author_name)
     a = find_author(author_names, author_name)
-    date = Time.parse(a.last_post)
+    date = Time.parse(a.last_root_post + " UTC")
     
     if 24.hours.ago > date
       'btn btn-xs btn-secondary'
@@ -34,6 +34,6 @@ module ApplicationHelper
   
   def author_latest_post(author_names, author_name)
     a = find_author(author_names, author_name)
-    "(#{time_ago_in_words(Time.parse(a.last_post))} ago)"
+    "(#{time_ago_in_words(Time.parse(a.last_root_post + " UTC"))} ago)"
   end
 end
