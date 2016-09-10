@@ -3,7 +3,7 @@ class AuthorsController < ApplicationController
   
   def index
     @project = Project.find params[:project_id]
-    @authors = @project.posts.created(@project.feature_duration_in_days, false).
+    @authors = @project.posts.created(@project.feature_duration_in_days.days.ago, false).
       published.rejected(false).
       pluck(:steem_author)
   end
