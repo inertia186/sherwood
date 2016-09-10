@@ -10,7 +10,7 @@
   %h3
     = project.name
     = link_to "Posts (#{project.posts.count})", project_posts_path(project), class: 'btn btn-primary btn-sm', uib_tooltip: project_stats(project)
-  - if (p = project.posts.accepted.published.today).any?
+  - if (p = project.posts.accepted.published.created(24.hours.ago)).any?
     Posts today:
     = p.count
     = surround '(', ')' do

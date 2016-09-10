@@ -29,11 +29,11 @@ class Post < ActiveRecord::Base
   scope :published, lambda { |published = true| where published: published }
   
   scope :in_cooldown, lambda { |author, cooldown|
-    published.where(steem_author: author).
-      where('posts.created_at > ?', cooldown)
+    published.where(steem_author: author).created(cooldown)
   }
   
-  scope :today, lambda { where('posts.created_at > ?', Time.now.beginning_of_day) }
+  scope :created, lambda { |date| where('posts.created_at > ?', date) }
+  scope :today, lambda { created(Time.now.beginning_of_day) }
   
   scope :ordered, lambda { |options = {by: :created_at, direction: 'asc'}|
     options[:by] ||= :created_at
