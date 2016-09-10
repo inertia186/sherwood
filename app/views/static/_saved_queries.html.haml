@@ -1,21 +1,21 @@
 %ul.list-group
-  %li.list-group-item{class: (count = current_project.posts.submitted.count) == 0 ? 'list-group-item-info' : 'list-group-item-warning'}
-    = link_to project_posts_path(current_project, status: 'submitted') do
+  %li.list-group-item{class: (count = project.posts.submitted.count) == 0 ? 'list-group-item-info' : 'list-group-item-warning'}
+    = link_to project_posts_path(project, status: 'submitted') do
       Submitted
       .label.label-default.label-pill.pull-xs-right= count
-  %li.list-group-item{class: (count = current_project.posts.accepted.published(false).count) == 0 ? 'list-group-item-info' : 'list-group-item-warning'}
-    = link_to project_posts_path(current_project, status: 'accepted', published: false) do
+  %li.list-group-item{class: (count = project.posts.accepted.published(false).count) == 0 ? 'list-group-item-info' : 'list-group-item-warning'}
+    = link_to project_posts_path(project, status: 'accepted', published: false) do
       Accepted, Unpublished
       .label.label-default.label-pill.pull-xs-right= count
   %li.list-group-item.list-group-item-info
-    = link_to project_posts_path(current_project, status: 'accepted', published: true, sort_field: 'created_at', sort_order: 'desc') do
+    = link_to project_posts_path(project, status: 'accepted', published: true, sort_field: 'created_at', sort_order: 'desc') do
       Accepted, Published
-      .label.label-default.label-pill.pull-xs-right= current_project.posts.accepted.published.count
+      .label.label-default.label-pill.pull-xs-right= project.posts.accepted.published.count
   %li.list-group-item.list-group-item-info
-    = link_to project_posts_path(current_project, status: 'rejected', published: false) do
+    = link_to project_posts_path(project, status: 'rejected', published: false) do
       Rejected, Unpublished
-      .label.label-default.label-pill.pull-xs-right= current_project.posts.rejected.published(false).count
-  %li.list-group-item{class: (count = current_project.posts.rejected.published.count) == 0 ? 'list-group-item-info' : 'list-group-item-danger'}
-    = link_to project_posts_path(current_project, status: 'rejected', published: true) do
+      .label.label-default.label-pill.pull-xs-right= project.posts.rejected.published(false).count
+  %li.list-group-item{class: (count = project.posts.rejected.published.count) == 0 ? 'list-group-item-info' : 'list-group-item-danger'}
+    = link_to project_posts_path(project, status: 'rejected', published: true) do
       Rejected, Published
       .label.label-default.label-pill.pull-xs-right= count

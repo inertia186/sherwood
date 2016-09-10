@@ -7,18 +7,18 @@
 %hr
 
 - Project.all.each do |project|
-  %h3
-    = project.name
-    = link_to "Posts (#{project.posts.count})", project_posts_path(project), class: 'btn btn-primary btn-sm', uib_tooltip: project_stats(project)
-  - if (p = project.posts.accepted.published.created(24.hours.ago)).any?
-    Posts today:
-    = p.count
-    = surround '(', ')' do
-      = "$%.2f" % p.map(&:best_payout_value).sum
-  %hr
-
-= render partial: 'saved_queries'
-
-%hr
+  - if project.posts.any?
+    %h3
+      = project.name
+      = link_to "Posts (#{project.posts.count})", project_posts_path(project, sort_field: 'created_at', sort_order: 'desc'),
+      class: 'btn btn-primary btn-sm', uib_tooltip: project_stats(project)
+    - if (p = project.posts.accepted.published.created(24.hours.ago)).any?
+      Posts today:
+      = p.count
+      = surround '(', ')' do
+        = "$%.2f" % p.map(&:best_payout_value).sum
+    %hr
+    = render partial: 'saved_queries', locals: {project: project}
+    %hr
 
 = link_to 'Projects', projects_path, class: 'btn btn-info'
