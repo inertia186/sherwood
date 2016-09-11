@@ -31,6 +31,10 @@ class User < ActiveRecord::Base
       self.password_hash = BCrypt::Engine.hash_secret(password, password_salt)
     end
   end
+  
+  def cache_key
+    [to_param, updated_at]
+  end
 private
   def password_changed?
     password.present? && password_confirmation.present?

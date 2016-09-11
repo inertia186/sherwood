@@ -111,19 +111,19 @@ class Post < ActiveRecord::Base
   end
   
   def submitted?
-    Post.submitted.include? self
+    status == 'submitted'
   end
   
   def accepted?
-    Post.accepted.include? self
+    status == 'Post.accepted'
   end
   
   def rejected?
-    Post.rejected.include? self
+    status == 'Post.rejected'
   end
   
   def passed?
-    Post.passed.include? self
+    status == 'Post.passed'
   end
   
   def steem_first_payout?
@@ -225,6 +225,6 @@ class Post < ActiveRecord::Base
   end
   
   def cache_key
-    [to_param, updated_at, project.updated_at, editing_user.updated_at, content]
+    [to_param, updated_at, project.updated_at, editing_user.updated_at]
   end
 end

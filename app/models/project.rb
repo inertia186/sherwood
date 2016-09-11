@@ -13,6 +13,9 @@ class Project < ActiveRecord::Base
   end
   
   def cache_key
-    [to_param, updated_at, posts.maximum(:updated_at), editing_users.maximum(:updated_at)]
+    [
+      to_param, updated_at, posts.maximum(:updated_at),
+      editing_users.maximum(:updated_at), memberships.maximum(:updated_at)
+    ]
   end
 end

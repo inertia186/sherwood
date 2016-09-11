@@ -2,15 +2,17 @@
 
 %h1= @project.name
 
-%table.table.table-sm.table-striped
-  %thead.thead-inverse
-    %tr
-      %th{scope: :row}
-      %th{scope: :row}= sortable_header_link_to 'Author', 'steem_author'
-      %th{scope: :row}= sortable_header_link_to 'Added', 'created_at'
-      %th{scope: :row}= sortable_header_link_to 'Payment', 'pending_payout_value'
-      %th{scope: :row}= sortable_header_link_to 'Votes', 'active_votes'
-      %th{scope: :row} Post
-    %tbody
-      - @posts.each do |post|
-        = render partial: 'post', object: post, as: :post
+- cache ['public-project', @project] do
+  %table.table.table-sm.table-striped
+    %thead.thead-inverse
+      %tr
+        %th{scope: :row}
+        %th{scope: :row}= sortable_header_link_to 'Author', 'steem_author'
+        %th{scope: :row}= sortable_header_link_to 'Added', 'created_at'
+        %th{scope: :row}= sortable_header_link_to 'Payment', 'pending_payout_value'
+        %th{scope: :row}= sortable_header_link_to 'Votes', 'active_votes'
+        %th{scope: :row} Post
+      %tbody
+        - @posts.each do |post|
+          - cache ['public-project-post', post] do
+            = render partial: 'post', object: post, as: :post
