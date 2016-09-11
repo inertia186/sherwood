@@ -29,13 +29,19 @@
         %fieldset.form-group
           = f.label :notes, 'Notes'
           = f.text_area :notes, class: 'form-control', ng_model: 'notes', splatnit: true
+          .small.alert.alert-warning{ng_show: "!!notes"}
+            Keep in mind, notes are public.  They appear as tool tips on the
+            public page.  If a post is ever rejected + published, these notes
+            will also appear as a dialog when the user clicks on the link on
+            the public page.
     .row
       .col-sm-12
         = f.select :published, [['published', true], ['unpublshed', false]], { include_blank: false },
           class: 'form-control form-control-sm', data: {chosen: true},
           ng_model: 'published', splatnit: true
-        .small.text-muted{ng_show: "publishWarning()"}
-          Typically, a post should only be published if the status is: accepted
+        .small.alert.alert-warning{ng_show: "publishWarning()"}
+          Typically, a post should only be published if the status is:
+          %code accepted
     .row
       .col-sm-12
         %fieldset.form-group

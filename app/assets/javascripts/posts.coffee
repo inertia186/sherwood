@@ -19,7 +19,7 @@ controller('PostLookupCtrl', ['$scope', '$http', '$sce', '$uibModal', ($scope, $
           $scope.slug_warning += " (Project: #{project.name})"
 
   $scope.publishWarning = () ->
-    $scope.status != 'accepted' && !!$scope.published
+    $scope.status != 'accepted' && $scope.published == 'true'
   
 ]).
 controller('PostCardCtrl', ['$scope', ($scope) ->
