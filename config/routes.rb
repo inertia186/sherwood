@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   resources :posts do
     member do
       get :card
+      post :check_for_plagiarism
     end
   end
 

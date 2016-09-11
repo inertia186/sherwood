@@ -46,6 +46,23 @@
         .btn-group
           - if current_user_has_membership?(post.project)
             = link_to 'Edit', edit_project_post_path(post.project, post), class: 'btn btn-info btn-sm card-link'
+        - if post.plagiarism_checked? && !!post.plagiarism_results_url
+          = link_to "Plagiarism Results",
+          post.plagiarism_results_url,
+          class: 'btn btn-info btn-sm card-link'
+        - elsif defined?(Plagiarism) && !!Plagiarism.username
+          - if !!post.plagiarism_checked?
+            = link_to "Plagiarism Check",
+            check_for_plagiarism_post_path(post),
+            class: 'btn btn-info btn-sm card-link', method: :post,
+            uib_tooltip: "#{pluralize(Plagiarism.credits, 'credits')} remain",
+            data: { confirm: "Each plagiarism check costs the server owner 5¢ USD.  This post was already checked #{time_ago_in_words(post.plagiarism_checked_at)} ago, results were empty.  Continue?" }
+          - else
+            = link_to "Plagiarism Check",
+            check_for_plagiarism_post_path(post),
+            class: 'btn btn-info btn-sm card-link', method: :post,
+            uib_tooltip: "#{pluralize(Plagiarism.credits, 'credits')} remain",
+            data: { confirm: "Each plagiarism check costs the server owner 5¢ USD.  Continue?" }
       .col-sm-6
         .pull-xs-right.btn-group
           - if current_user_has_membership?(post.project)

@@ -1,7 +1,7 @@
 include ActionView::Helpers::DateHelper
 
 class Post < ActiveRecord::Base
-  ALLOWED_STATUS = %w(submitted accepted rejected passed)
+  ALLOWED_STATUS = %w(proposed submitted accepted rejected passed)
   HUMANIZED_ATTRIBUTES = {
     slug: 'Permalink'
   }
@@ -21,7 +21,8 @@ class Post < ActiveRecord::Base
     end
   }
 
-  scope :submitted, lambda { |proposed = true| status 'submitted', proposed }
+  scope :proposed, lambda { |proposed = true| status 'proposed', proposed }
+  scope :submitted, lambda { |submitted = true| status 'submitted', submitted }
   scope :accepted, lambda { |accepted = true| status 'accepted', accepted }
   scope :rejected, lambda { |rejected = true| status 'rejected', rejected }
   scope :passed, lambda { |passed = true| status 'passed', passed }
@@ -105,9 +106,17 @@ class Post < ActiveRecord::Base
     
     posts
   end
-
+  
+  def self.deactivate_all!
+    update_all("status = 'passed'")
+  end
+  
   def to_param
     "#{id}-#{slug.to_s.parameterize}"
+  end
+  
+  def proposed?
+    status == 'proposed'
   end
   
   def submitted?
@@ -222,6 +231,10 @@ class Post < ActiveRecord::Base
 
   def best_payout_value_formatted
     "$%.2f" % best_payout_value
+  end
+  
+  def plagiarism_checked?
+    !!plagiarism_checked_at
   end
   
   def cache_key

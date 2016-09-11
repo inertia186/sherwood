@@ -38,7 +38,7 @@ class PostsController < ApplicationController
   end
   
   def new
-    @post = Post.new(editing_user: current_user, project_id: params[:project_id])
+    @post = Post.new(status: 'submitted', editing_user: current_user, project_id: params[:project_id])
   end
 
   def edit
@@ -62,6 +62,25 @@ class PostsController < ApplicationController
       return_or_redirect_to project_post_url(@post.project, @post), notice: 'Post updated.'
     else
       render 'edit'
+    end
+  end
+  
+  def check_for_plagiarism
+    @post = Post.find(params[:id])
+    
+    search = Plagiarism.text_search(@post.content.body)
+    Rails.logger.info "Plagiarism results; count: #{search.count}, words: #{search.words}, url: #{search.results_url}"
+    @post.update_attributes(plagiarism_results_url: search.results_url, plagiarism_checked_at: Time.now)
+    
+    if search.success? && search.results?
+      redirect_to search.results_url
+    else
+      error = search.response.response['response']['error']
+      if !!error
+        return_or_redirect_to project_post_url(@post.project, @post), flash: { error: "Error: #{error}" }
+      else
+        return_or_redirect_to project_post_url(@post.project, @post), notice: "No plagiarism found."
+      end
     end
   end
 

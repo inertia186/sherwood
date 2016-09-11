@@ -13,7 +13,8 @@ class PostTest < ActiveSupport::TestCase
   
   def test_valid
     assert post.valid?, "expect valid post, got: #{post.errors.inspect}"
-    assert post.submitted?
+    assert post.proposed?
+    refute post.submitted?
     refute post.accepted?
     refute post.rejected?
     refute post.passed?

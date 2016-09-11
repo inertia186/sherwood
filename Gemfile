@@ -41,6 +41,8 @@ gem 'radiator', github: 'inertia186/radiator'
 
 gem 'rdiscount'
 
+gem 'plagiarism'
+
 # Assets
 
 gem 'bootstrap-glyphicons', '~> 0.0.1'
