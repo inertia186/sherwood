@@ -26,7 +26,14 @@ class Post < ActiveRecord::Base
   scope :rejected, lambda { |rejected = true| status 'rejected', rejected }
   scope :passed, lambda { |passed = true| status 'passed', passed }
   
-  scope :published, lambda { |published = true| where published: published }
+  scope :published, lambda { |published = true|
+    # Have to use a verbose logic because SQLite is stupid.
+    if published
+      where("posts.published = ?", true)
+    else
+      where("posts.published = ?", false)
+    end
+  }
   
   scope :in_cooldown, lambda { |author, cooldown|
     published.where(steem_author: author).created(cooldown)
