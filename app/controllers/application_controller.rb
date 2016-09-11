@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   
   before_action :authorize_user!
+  before_action :process_posts
 
   helper_method :steem_api
   helper_method :markdown
@@ -20,6 +21,10 @@ private
       flash[:warning] = "Please sign in."
       redirect_to new_session_path(return_to: request.url)
     end
+  end
+  
+  def process_posts
+    PostProcessJob.perform_later if action_name == 'index'
   end
   
   def current_user_has_membership
