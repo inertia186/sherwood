@@ -73,8 +73,11 @@ class Post < ActiveRecord::Base
   end
 
   after_validation do
-    fix_booleans
     ContentGetterJob.perform_later(id) unless Rails.env.test?
+  end
+  
+  after_save do
+    fix_booleans
   end
   
   def self.order_by_active_votes(options = {direction: 'asc'})
@@ -237,6 +240,6 @@ class Post < ActiveRecord::Base
 private
   # Fix booleans for SQLite.  See: https://kconrails.com/2008/07/18/ruby-on-rails-bool-vs-boolean-in-sqlite3/
   def fix_booleans
-    self.published = !!published if published_changed?
+    Post.where.not(published: 't').update_all("published = 'f'")
   end
 end
