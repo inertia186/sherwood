@@ -5,11 +5,11 @@
         - if post.rejected?
           %label.alert.alert-danger.glyphicon.glyphicon-flag
             Rejected
-        %strong= link_to post.title, post.canonical_url, target: '_new'
+        %strong= link_to post.title, post.canonical_url
         .pull-xs-right.nga-default.nga-stagger-slow.nga-fade{ng_if: 'showCard'}
           %small
             Post by:
-            = link_to "@#{post.steem_author}", "https://steemit.com/@#{post.steem_author}", target: '_new'
+            = link_to "@#{post.steem_author}", "https://steemit.com/@#{post.steem_author}"
             %br
             Added by:
             = post.editing_user.nick
