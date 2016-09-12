@@ -172,7 +172,22 @@ class PostsControllerTest < ActionController::TestCase
   def test_update_published
     post = posts(:little_buddy)
     
-    process :update, method: :patch, params: { id: post.id, post: post_params.merge(published: true) }
+    assert_no_difference -> { Post.published.count } do
+      process :update, method: :patch, params: { id: post.id, post: post_params.merge(published: true) }
+    end
+    _post = assigns :post
+    assert _post.valid?, "expect valid post, got: #{_post.errors.inspect}"
+    
+    assert_template nil
+    assert_redirected_to project_post_path(_post.project, _post)
+  end
+  
+  def test_update_unpublished
+    post = posts(:little_buddy)
+    
+    assert_difference -> { Post.published.count }, -1 do
+      process :update, method: :patch, params: { id: post.id, post: post_params.merge(published: 'false') }
+    end
     _post = assigns :post
     assert _post.valid?, "expect valid post, got: #{_post.errors.inspect}"
     

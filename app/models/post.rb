@@ -27,14 +27,7 @@ class Post < ActiveRecord::Base
   scope :rejected, lambda { |rejected = true| status 'rejected', rejected }
   scope :passed, lambda { |passed = true| status 'passed', passed }
   
-  scope :published, lambda { |published = true|
-    # Have to use a verbose logic because SQLite is stupid.
-    if published
-      where("posts.published = ?", true)
-    else
-      where("posts.published = ?", false)
-    end
-  }
+  scope :published, lambda { |published = true| where published: published }
   
   scope :in_cooldown, lambda { |author, cooldown|
     published.where(steem_author: author).created(cooldown)
@@ -80,6 +73,7 @@ class Post < ActiveRecord::Base
   end
 
   after_validation do
+    fix_booleans
     ContentGetterJob.perform_later(id) unless Rails.env.test?
   end
   
@@ -239,5 +233,10 @@ class Post < ActiveRecord::Base
   
   def cache_key
     [to_param, updated_at, project.updated_at, editing_user.updated_at]
+  end
+private
+  # Fix booleans for SQLite.  See: https://kconrails.com/2008/07/18/ruby-on-rails-bool-vs-boolean-in-sqlite3/
+  def fix_booleans
+    self.published = !!published if published_changed?
   end
 end
