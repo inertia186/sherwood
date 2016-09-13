@@ -230,6 +230,18 @@ class Post < ActiveRecord::Base
     "$%.2f" % best_payout_value
   end
   
+  def voters_sorted_by_weight
+    @voters_sorted_by_weight ||= content.active_votes.to_a.sort_by { |v| v.weight.to_i.abs }
+  end
+
+  def top_voter
+    @top_voter ||= voters_sorted_by_weight.last
+  end
+  
+  def top_voter_account
+    top_voter.first.last rescue nil
+  end
+  
   def plagiarism_checked?
     !!plagiarism_checked_at
   end

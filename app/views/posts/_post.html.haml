@@ -31,10 +31,17 @@
         %span
           Votes:
           = post.content.active_votes.size
+        - if !!post.top_voter_account
+          |
+          %span
+            Top Vote:
+            %abbr{uib_tooltip: post.voters_sorted_by_weight.last(10).reverse.map(&:voter).join(' ') + ' ...'}
+              = post.top_voter_account
+              = surround '(', ')' do
+                = "%.2f%" % (post.top_voter.percent.to_f / 100)
         %small.pull-xs-right
           Posted:
           %relative_timestamp= post.steem_created + 'Z'
-          
   - if !!post.notes
     .card-block
       .list-group-item-text
