@@ -1,5 +1,6 @@
 class PostsController < ApplicationController
   before_action :current_user_has_membership, only: [:create, :update, :destroy]
+  skip_before_action :verify_authenticity_token, only: :check_for_plagiarism
   respond_to :js, :json
   
   def index
@@ -68,18 +69,44 @@ class PostsController < ApplicationController
   def check_for_plagiarism
     @post = Post.find(params[:id])
     
+    if !!@post.plagiarism_results_url
+      Rails.logger.info "Skipped Plagiarism check, reusing last result."
+      respond_to do |format|
+        format.html {
+          redirect_to search.results_url
+        }
+        format.json
+      end
+      
+      return
+    end
+    
     search = Plagiarism.text_search(@post.content.body)
     Rails.logger.info "Plagiarism results; count: #{search.count}, words: #{search.words}, url: #{search.results_url}"
     @post.update_attributes(plagiarism_results_url: search.results_url, plagiarism_checked_at: Time.now)
     
     if search.success? && search.results?
-      redirect_to search.results_url
+      respond_to do |format|
+        format.html {
+          redirect_to search.results_url
+        }
+        format.json
+      end
     else
-      error = search.response.response['response']['error']
-      if !!error
-        return_or_redirect_to project_post_url(@post.project, @post), flash: { error: "Error: #{error}" }
+      if !!(@error = search.response.response['response']['error'])
+        respond_to do |format|
+          format.html {
+            return_or_redirect_to project_post_url(@post.project, @post), flash: { error: "Error: #{@error}" }
+          }
+          format.json
+        end
       else
-        return_or_redirect_to project_post_url(@post.project, @post), notice: "No plagiarism found."
+        respond_to do |format|
+          format.html {
+            return_or_redirect_to project_post_url(@post.project, @post), notice: "No plagiarism found."
+          }
+          format.json
+        end
       end
     end
   end

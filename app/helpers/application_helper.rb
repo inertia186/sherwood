@@ -36,4 +36,12 @@ module ApplicationHelper
     a = find_author(author_names, author_name)
     "(#{time_ago_in_words(Time.parse(a.last_root_post + " UTC"))} ago)"
   end
+  
+  def copyscape_credit_balance
+    return '' if Plagiarism.test_mode
+    
+    @copyscape_credit_balance ||= "#{pluralize((Plagiarism.credits), 'credits')} remain"
+  rescue
+    ''
+  end
 end
