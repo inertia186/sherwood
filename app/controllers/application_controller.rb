@@ -7,6 +7,9 @@ class ApplicationController < ActionController::Base
   helper_method :steem_api
   helper_method :markdown
   helper_method :current_user, :current_project, :current_user_has_membership?
+  
+  helper_method :authors, :find_author, :author_latest_post_,
+    :author_latest_post_class, :author_latest_post_timestamp
 private
   def steem_api
     @steem_api ||= Radiator::Api.new
@@ -67,5 +70,33 @@ private
     else
       Project.find_by_code('rhw')
     end
+  end
+  
+  def authors(author_names)
+    @steem_authors ||= steem_api.get_accounts(author_names).result
+  end
+  
+  def find_author(author_names, author_name)
+    authors(author_names).select { |a| a.name == author_name }.last
+  end
+  
+  def author_latest_post_class(author_names, author_name)
+    a = find_author(author_names, author_name)
+    date = Time.parse(a.last_root_post + " UTC")
+    
+    if 24.hours.ago > date
+      'btn btn-xs btn-secondary'
+    else
+      'btn btn-xs btn-success'
+    end
+  end
+  
+  def author_latest_post(author_names, author_name)
+    a = find_author(author_names, author_name)
+    Time.parse(a.last_root_post + " UTC")
+  end
+  
+  def author_latest_post_timestamp(author_names, author_name)
+    "(#{time_ago_in_words(author_latest_post(author_names, author_name))} ago)"
   end
 end
