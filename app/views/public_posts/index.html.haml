@@ -2,7 +2,7 @@
 
 %h1= @project.name
 
-- cache ['public-project', @project] do
+- cache ['public-project', params, @project] do
   %table.table.table-sm.table-striped
     %thead.thead-inverse
       %tr
