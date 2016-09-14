@@ -2,7 +2,7 @@ require 'test_helper'
 
 class PostsControllerTest < ActionController::TestCase
   def setup
-    @project = projects(:rhw)
+    @project = projects(:gi)
     gilligan = users(:gilligan)
     gilligan.projects << @project
     user_sign_in(gilligan)
@@ -31,6 +31,15 @@ class PostsControllerTest < ActionController::TestCase
   
   def test_index
     process :index, method: :get, params: { project_id: @project }
+    posts = assigns :posts
+    assert posts, 'expect posts'
+    
+    assert_template :index
+    assert_response :success
+  end
+  
+  def test_index
+    process :index, method: :get, params: { project_id: @project, query: 'wikimedia' }
     posts = assigns :posts
     assert posts, 'expect posts'
     

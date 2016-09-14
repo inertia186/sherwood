@@ -5,7 +5,7 @@ class PostTest < ActiveSupport::TestCase
     stub_post_get_content
     post_params = {
       slug: '@maryann/girl-next-door',
-      project: projects(:rhw),
+      project: projects(:gi),
       editing_user: users(:gilligan)
     }
     @post ||= Post.new(post_params)

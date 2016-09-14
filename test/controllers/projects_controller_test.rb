@@ -2,7 +2,7 @@ require 'test_helper'
 
 class ProjectsControllerTest < ActionController::TestCase
   def setup
-    @project = projects(:rhw)
+    @project = projects(:gi)
     gilligan = users(:gilligan)
     gilligan.projects << @project
     user_sign_in(gilligan)

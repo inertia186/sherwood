@@ -2,7 +2,7 @@ require 'test_helper'
 
 class PublicPostsControllerTest < ActionController::TestCase
   def setup
-    @project = projects(:rhw)
+    @project = projects(:gi)
   end
   
   def test_routings

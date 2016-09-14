@@ -16,7 +16,7 @@ class SessionsControllerTest < ActionController::TestCase
   end
   
   def test_create
-    project = projects(:rhw)
+    project = projects(:gi)
     return_to = "http://test.host/projects/#{project.to_param}/posts"
     process :create, method: :post, params: { email: 'willyg@minnow.com', password: 'password', return_to: return_to }
     
@@ -25,7 +25,7 @@ class SessionsControllerTest < ActionController::TestCase
   end
 
   def test_create_wrong
-    project = projects(:rhw)
+    project = projects(:gi)
     process :create, method: :post, params: { email: 'willyg@minnow.com', password: 'WRONG' }
     
     assert_template :new
