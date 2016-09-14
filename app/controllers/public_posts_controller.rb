@@ -14,6 +14,8 @@ class PublicPostsController < ApplicationController
       @posts.order_by_active_votes(direction: sort_order)
     elsif sort_field == 'pending_payout_value'
       @posts.order_by_pending_payout_value(direction: sort_order)
+    elsif sort_field == 'best_payout_value'
+      @posts.order_by_best_payout_value(direction: sort_order)
     else
       @posts.ordered(by: sort_field, direction: sort_order)
     end

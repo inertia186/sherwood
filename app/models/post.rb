@@ -104,6 +104,18 @@ class Post < ActiveRecord::Base
     posts
   end
   
+  def self.order_by_best_payout_value(options = {direction: 'asc'})
+    posts = all.sort_by do |post|
+      post.best_payout_value
+    end
+    
+    if options[:direction] == 'desc'
+      posts = posts.reverse
+    end
+    
+    posts
+  end
+  
   def self.deactivate_all!
     update_all("status = 'passed'")
   end
