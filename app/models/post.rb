@@ -121,15 +121,15 @@ class Post < ActiveRecord::Base
   end
   
   def accepted?
-    status == 'Post.accepted'
+    status == 'accepted'
   end
   
   def rejected?
-    status == 'Post.rejected'
+    status == 'rejected'
   end
   
   def passed?
-    status == 'Post.passed'
+    status == 'passed'
   end
   
   def steem_first_payout?
@@ -247,7 +247,7 @@ class Post < ActiveRecord::Base
   end
   
   def cache_key
-    [to_param, updated_at, project.updated_at, editing_user.updated_at]
+    [to_param, updated_at, project.updated_at, editing_user.cache_key]
   end
 private
   # Fix booleans for SQLite.  See: https://kconrails.com/2008/07/18/ruby-on-rails-bool-vs-boolean-in-sqlite3/
