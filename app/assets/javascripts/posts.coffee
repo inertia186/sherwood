@@ -42,11 +42,24 @@ controller('ModalCtrl', ['$scope', '$uibModalInstance', '$http', '$sce', 'event'
   $scope.post_id = post_id
   $scope.url = url
   $scope.checked_at = checked_at
-  $scope.plagiarism_results = $sce.trustAsHtml '<div class="jumbotron"><div class="center-block spinner-icon" /></div>'
+  $scope.plagiarism_results = $sce.trustAsHtml '<div class="jumbotron"><div class="m-x-auto spinner-icon" /></div>'
+  
+  iframe_controls = """
+    <a href="#back" onclick="pframe.history.go(-1); return false;" title="Back" class="btn btn-secondary btn-sm">
+      <span class="glyphicon glyphicon-chevron-left" />
+    </a>
+    <a href="#next" onclick="pframe.history.go(1); return false;" title="Next" class="btn btn-secondary btn-sm">
+      <span class="glyphicon glyphicon-chevron-right" />
+    </a>
+  """
+  iframe_attributes = 'name="pframe" class="embed-responsive-item" controls="controls"'
   
   if !!$scope.url
     html = """
-      <iframe src="#{$scope.url}" width="800" height="600"></iframe>
+      #{iframe_controls}
+      <div class="embed-responsive embed-responsive-4by3">
+        <iframe #{iframe_attributes} src="#{$scope.url}"></iframe>
+      </div>
       <p><a href="#{$scope.url}" target="post_id_#{post_id}">#{$scope.url}</a></p>
       <p>Checked: <relative_timestamp>#{$scope.checked_at}</relative_timestamp></p>
     """
@@ -65,7 +78,10 @@ controller('ModalCtrl', ['$scope', '$uibModalInstance', '$http', '$sce', 'event'
           
         if !!$scope.url
           html = """
-            <iframe src="#{$scope.url}" width="800" height="600"></iframe>
+            #{iframe_controls}
+            <div class="embed-responsive embed-responsive-4by3">
+              <iframe #{iframe_attributes} src="#{$scope.url}"></iframe>
+            </div>
             <p><a href="#{$scope.url}" target="post_id_#{post_id}">#{$scope.url}</a></p>
             <p>Checked: Just now.</p>
           """

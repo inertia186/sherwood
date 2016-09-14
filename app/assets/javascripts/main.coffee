@@ -30,7 +30,7 @@ directive('postCard', ['$compile', '$http', '$timeout', ($compile, $http, $timeo
     card = '/posts/' + $attrs.postId + '/card'
     template = '''
       <div class="jumbotron nga-fast nga-rotate-left">
-        <div class="center-block spinner-icon" />
+        <div class="m-x-auto spinner-icon" />
       </div>
     '''
     $element.append $compile(template)($scope)
@@ -46,7 +46,7 @@ directive('projectCard', ['$compile', '$http', ($compile, $http) ->
   restrict: 'E',
   controller: ['$scope', '$element', '$attrs', ($scope, $element, $attrs) ->
     card = "/#{$attrs.type}/#{$attrs.projectId}/card"
-    template = '<div class="jumbotron"><div class="center-block spinner-icon" /></div>'
+    template = '<div class="jumbotron"><div class="m-x-auto spinner-icon" /></div>'
     $element.append $compile(template)($scope)
     success = (response) ->
       $element.empty().append $compile(response.data)($scope)
@@ -80,7 +80,7 @@ directive('formErrors', ['$compile', ($compile) ->
     return if $scope.errors.length == 0
     
     template = '''
-      <div role="alert" class="center-block alert alert-danger">
+      <div role="alert" class="m-x-auto alert alert-danger">
       <h2>Form is invalid</h2>
       <ul>
     '''

@@ -1,11 +1,15 @@
-.card{ng_controller: 'PostCardCtrl', in_view_container: true, in_view: 'showCard ? showCard : showCard = $inview', in_view_options: '{ debounce: 100 }'}
+.card{ng_controller: 'PostCardCtrl',
+in_view_container: true,
+in_view: 'showCard ? showCard : showCard = $inview',
+in_view_options: '{ debounce: 100 }',
+class: post_card_class(post)}
   .card-block
     .card-title
       .list-group-item-heading
-        - if post.rejected?
-          %label.alert.alert-danger.glyphicon.glyphicon-flag
-            Rejected
-        %strong= link_to post.title, post.canonical_url
+        %strong
+          = link_to post.title, post.canonical_url
+          - if post.rejected?
+            %span.tag.tag-danger.glyphicon.glyphicon-flag (Rejected)
         .pull-xs-right.nga-default.nga-stagger-slow.nga-fade{ng_if: 'showCard'}
           %small
             Post by:
