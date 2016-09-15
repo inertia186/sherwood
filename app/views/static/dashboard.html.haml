@@ -6,25 +6,24 @@
   
 %hr
 
-- Project.all.each do |project|
+- Project.has_posts.find_each do |project|
   .row
     %h3
       = project.name
   .row
     %ul.nav.nav-tabs
-      - if project.posts.any?
-        %li.nav-item
-          = link_to 'Posts', "##{project.code}-posts",
-          id: "#{project.code}-posts-tab", class: 'nav-link active',
-          data: { toggle: 'tab'}
-        %li.nav-item
-          = link_to 'Stats', "##{project.code}-stats",
-          id: "##{project.code}-stats-tab", class: 'nav-link',
-          data: { toggle: 'tab'}
-        %li.nav-item
-          = link_to 'Authors', "##{project.code}-authors",
-          id: "##{project.code}-authors-tab", class: 'nav-link',
-          data: { toggle: 'tab'}
+      %li.nav-item
+        = link_to 'Posts', "##{project.code}-posts",
+        id: "#{project.code}-posts-tab", class: 'nav-link active',
+        data: { toggle: 'tab'}
+      %li.nav-item
+        = link_to 'Stats', "##{project.code}-stats",
+        id: "##{project.code}-stats-tab", class: 'nav-link',
+        data: { toggle: 'tab'}
+      %li.nav-item
+        = link_to 'Authors', "##{project.code}-authors",
+        id: "##{project.code}-authors-tab", class: 'nav-link',
+        data: { toggle: 'tab'}
     
     - if project.posts.any?
       .tab-content

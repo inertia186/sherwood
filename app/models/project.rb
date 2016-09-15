@@ -8,6 +8,8 @@ class Project < ActiveRecord::Base
   validates_uniqueness_of :code
   validates_presence_of :feature_duration_in_days
   
+  scope :has_posts, -> { where(id: Post.passed(false).select(:project_id)) }
+  
   def to_param
     "#{id}-#{code.to_s.parameterize}"
   end
