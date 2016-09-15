@@ -19,4 +19,10 @@ class AuthorsController < ApplicationController
       author_latest_post_timestamp(@authors, author)
     end
   end
+  
+  def index_card
+    index
+    
+    render 'index_card', latout: nil
+  end
 end

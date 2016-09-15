@@ -2,14 +2,14 @@ require 'csv'
 
 namespace :sherwood do
   PROJECT_KEYS = %w(code name feature_duration_in_days created_at updated_at)
-  
+
   USER_KEYS = %w(email nick password_hash password_salt project_codes created_at updated_at)
-  
+
   POST_KEYS = %w(
     status slug project_code editing_user_nick notes published created_at
     updated_at
   )
-  
+
   desc 'display the current information of rake'
   task :info do
     puts "You are running rake task in #{Rails.env} environment."
@@ -21,13 +21,13 @@ namespace :sherwood do
       puts ContentGetterJob.perform_now
     end
   end
-  
+
   namespace :export do
     desc 'dump out projects to csv'
     task projects: :environment do
       data = CSV.generate do |csv|
         csv << PROJECT_KEYS
-        
+
         Project.all.find_each do |project|
           row = []
           PROJECT_KEYS.each do |key|
@@ -35,7 +35,7 @@ namespace :sherwood do
           end
           csv << row
         end
-        
+
       end
 
       puts data
@@ -45,7 +45,7 @@ namespace :sherwood do
     task users: :environment do
       data = CSV.generate do |csv|
         csv << USER_KEYS
-        
+
         User.all.find_each do |user|
           row = []
           USER_KEYS.each do |key|
@@ -56,7 +56,7 @@ namespace :sherwood do
           end
           csv << row
         end
-        
+
       end
 
       puts data
@@ -66,7 +66,7 @@ namespace :sherwood do
     task posts: :environment do
       data = CSV.generate do |csv|
         csv << POST_KEYS
-        
+
         Post.all.find_each do |post|
           row = []
           POST_KEYS.each do |key|
@@ -78,13 +78,13 @@ namespace :sherwood do
           end
           csv << row
         end
-        
+
       end
 
       puts data
     end
   end
-  
+
   namespace :import do
     desc 'pump in projects from csv'
     task projects: :environment do
@@ -98,7 +98,7 @@ namespace :sherwood do
         puts Project.create(project_params).errors.full_messages
       end
     end
-    
+
     desc 'pump in users from csv'
     task users: :environment do
       CSV.parse(STDIN, headers: true) do |row|
@@ -117,7 +117,7 @@ namespace :sherwood do
         puts User.create(user_params).errors.full_messages
       end
     end
-    
+
     desc 'pump in posts from csv'
     task posts: :environment do
       CSV.parse(STDIN, headers: true) do |row|
@@ -134,7 +134,7 @@ namespace :sherwood do
           else
             post_params[key] = row[key]
           end
-          
+
         end
 
         puts Post.create(post_params).errors.full_messages

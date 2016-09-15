@@ -19,3 +19,7 @@
     = link_to project_posts_path(project, status: 'rejected', published: true) do
       Rejected, Published
       .label.label-default.label-pill.pull-xs-right= count
+  %li.list-group-item{class: 'list-group-item-info'}
+    = link_to project_posts_path(project, sort_field: 'created_at', sort_order: 'desc') do
+      All Posts
+      .label.label-default.label-pill.pull-xs-right= project.posts.count

@@ -7,19 +7,34 @@
 %hr
 
 - Project.all.each do |project|
-  - if project.posts.any?
+  .row
     %h3
       = project.name
-      = link_to "Posts (#{project.posts.count})", project_posts_path(project, sort_field: 'created_at', sort_order: 'desc'),
-      class: 'btn btn-primary btn-sm', uib_tooltip: project_stats(project)
-      = link_to "Authors", project_authors_path(project), class: 'btn btn-primary btn-sm'
-    - if (p = project.posts.accepted.published.created(24.hours.ago)).any?
-      Posts today:
-      = p.count
-      = surround '(', ')' do
-        = "$%.2f" % p.map(&:best_payout_value).sum
-    %hr
-    = render partial: 'saved_queries', locals: {project: project}
-    %hr
+  .row
+    %ul.nav.nav-tabs
+      - if project.posts.any?
+        %li.nav-item
+          = link_to 'Posts', "##{project.code}-posts",
+          id: "#{project.code}-posts-tab", class: 'nav-link active',
+          data: { toggle: 'tab'}
+        %li.nav-item
+          = link_to 'Stats', "##{project.code}-stats",
+          id: "##{project.code}-stats-tab", class: 'nav-link',
+          data: { toggle: 'tab'}
+        %li.nav-item
+          = link_to 'Authors', "##{project.code}-authors",
+          id: "##{project.code}-authors-tab", class: 'nav-link',
+          data: { toggle: 'tab'}
+    
+    - if project.posts.any?
+      .tab-content
+        .tab-pane.active{id: "#{project.code}-posts"}
+          = render partial: 'saved_queries', locals: {project: project}
+        .tab-pane{id: "#{project.code}-stats"}
+          = render partial: 'stats', locals: {project: project}
+        .tab-pane{id: "#{project.code}-authors"}
+          %author_index_card{project_id: project.id}
+
+%hr
 
 = link_to 'Projects', projects_path, class: 'btn btn-info'

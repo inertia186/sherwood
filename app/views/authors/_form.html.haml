@@ -1,0 +1,36 @@
+= cache ['authors-form', project, @latest_authors, @oldest_authors] do
+  This is the list of authors who have been featured more than
+  =pluralize project.feature_duration_in_days, 'days'
+  ago.  Their posts have been published and not rejected.
+
+  %hr
+
+  = form_tag 'https://www.random.org/lists/', method: :post do
+    .row
+      .col-sm-6
+        %h5 Authors posting in the last 24 hours:
+        - @latest_authors.each do |author|
+          = link_to "@#{author} #{author_latest_post_timestamp(@authors, author)}",
+          "https://steemit.com/@#{author}", class: author_latest_post_class(@authors, author)
+        %hr
+        %h5 Authors posting before the last 24 hours:
+        - @oldest_authors.each do |author|
+          = link_to "@#{author} #{author_latest_post_timestamp(@authors, author)}",
+          "https://steemit.com/@#{author}", class: author_latest_post_class(@authors, author)
+      .col-sm-6
+        .row
+          .col-sm-6
+            .input-group
+              = text_area_tag :list, @latest_authors.join("\n"), rows: 25, class: 'form-control'
+          .col-sm-6
+        .row
+          .col-sm-3
+            .input-group
+              = submit_tag 'Randomize', class: 'btn btn-info btn form-control'
+          .col-sm-9
+
+  %script{id: "modal_author_randomize.html", type: "text/ng-template"}
+    .modal-body.large
+      %span{ng_bind_html: 'author_randomize_results'}
+    .modal-footer
+      %button.btn.btn-warning{ng_click: "done()", type: "button"} Done

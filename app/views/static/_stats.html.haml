@@ -1,0 +1,28 @@
+%p= project_stats(project)
+- if (p = project.posts.accepted.published.created(24.hours.ago)).any?
+  %p
+    Posts today:
+    = p.count
+    = surround '(', ')' do
+      = "$%.2f" % p.map(&:best_payout_value).sum
+
+- cache ['stats', project, (report = project.posts.group(:editing_user_id, :status, :published).order(:status).count)] do
+  %table.table.table-sm.table-striped
+    %tr
+      %thead.thead-inverse
+        %th Curator
+        %th Status
+        %th Published
+        %th Posts
+      %tbody
+        - report = report.sort_by { |data| project.members.find(data.first.first).nick.downcase }
+        - report.each do |data|
+          %tr
+            %td
+              - if @last_nick == (nick = project.members.find(data.first.first).nick)
+                &nbsp;
+              - else
+                = @last_nick = nick
+            %td= data.first[1]
+            %td= data.first[2] ? '√' : ''
+            %td= data.last

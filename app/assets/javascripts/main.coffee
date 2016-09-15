@@ -56,6 +56,20 @@ directive('projectCard', ['$compile', '$http', ($compile, $http) ->
     $http.get(card).then(success, error)
   ]
 ]).
+directive('authorIndexCard', ['$compile', '$http', ($compile, $http) ->
+  restrict: 'E',
+  controller: ['$scope', '$element', '$attrs', ($scope, $element, $attrs) ->
+    card = "/projects/#{$attrs.projectId}/authors/index_card"
+    template = '<div class="jumbotron"><div class="m-x-auto spinner-icon" /></div>'
+    $element.append $compile(template)($scope)
+    success = (response) ->
+      $element.empty().append $compile(response.data)($scope)
+    error = (response) ->
+      $element.empty().append "<pre>#{response.data}</pre>"
+    
+    $http.get(card).then(success, error)
+  ]
+]).
 directive('flash', ['Flash', '$compile', (Flash, $compile) ->
   restrict: 'E'
   scope:
