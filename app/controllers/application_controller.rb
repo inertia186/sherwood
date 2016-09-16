@@ -83,15 +83,7 @@ private
   end
   
   def authors(author_names)
-    return @steem_authors if !!@steem_authors
-    
-    @steem_authors = []
-    
-    until author_names.empty?
-      @steem_authors += steem_api.get_accounts(author_names.pop(25)).result
-    end
-    
-    @steem_authors
+    @steem_authors ||= steem_api.get_accounts(author_names).result
   end
   
   def find_author(author_names, author_name)
