@@ -23,6 +23,6 @@ class AuthorsController < ApplicationController
   def index_card
     index
     
-    render 'index_card', latout: nil
+    render 'index_card', layout: 'card'
   end
 end

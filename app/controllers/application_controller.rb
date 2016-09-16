@@ -22,7 +22,7 @@ private
   end
 
   def steem_api
-    @steem_api ||= Radiator::Api.new
+    @steem_api ||= Radiator::Api.new(RADIATOR_OPTIONS)
   end
   
   def markdown(string)
@@ -83,7 +83,15 @@ private
   end
   
   def authors(author_names)
-    @steem_authors ||= steem_api.get_accounts(author_names).result
+    return @steem_authors if !!@steem_authors
+    
+    @steem_authors = []
+    
+    until author_names.empty?
+      @steem_authors += steem_api.get_accounts(author_names.pop(25)).result
+    end
+    
+    @steem_authors
   end
   
   def find_author(author_names, author_name)
