@@ -38,7 +38,7 @@ class PostsControllerTest < ActionController::TestCase
     assert_response :success
   end
   
-  def test_index
+  def test_index_query
     process :index, method: :get, params: { project_id: @project, query: 'wikimedia' }
     posts = assigns :posts
     assert posts, 'expect posts'

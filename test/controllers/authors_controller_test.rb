@@ -29,4 +29,22 @@ class AuthorsControllerTest < ActionController::TestCase
     assert_template :index
     assert_response :success
   end
+  
+  def test_index_card
+    stub_post_get_content times: 2 do
+      @project.posts.map(&:content!)
+    end
+    
+    @project.posts.update_all("updated_at = '#{20.days.ago}'")
+      
+    stub_post_get_accounts times: 2 do
+      process :index_card, method: :get, params: { project_id: @project }
+    end
+    authors = assigns :authors
+    assert authors, 'expect authors'
+    # assert authors.any?, 'expect authors'
+    
+    assert_template :index_card
+    assert_response :success
+  end
 end

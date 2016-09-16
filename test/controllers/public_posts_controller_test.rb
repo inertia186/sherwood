@@ -46,6 +46,18 @@ class PublicPostsControllerTest < ActionController::TestCase
     assert_response :success
   end
   
+  def test_index_ordered_by_best_payout_value
+    stub_post_get_content times: 2 do
+      process :index, method: :get, params: { project_id: @project, sort_field: 'best_payout_value', sort_order: 'desc' }
+    end
+    posts = assigns :posts
+    assert posts, 'expect posts'
+    assert posts.any?, 'expect posts'
+    
+    assert_template :index
+    assert_response :success
+  end
+  
   # def test_index_no_project
   #   process :index, method: :get
   #   posts = assigns :posts
