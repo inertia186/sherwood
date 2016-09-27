@@ -2,16 +2,9 @@ class PostsController < ApplicationController
   before_action :current_user_has_membership, only: [:create, :update, :destroy]
   skip_before_action :verify_authenticity_token, only: :check_for_plagiarism
   respond_to :js, :json
+  before_action :init_params, only: :index
   
   def index
-    @project = Project.find params[:project_id] if params[:project_id]
-    @sort_field = params[:sort_field]
-    @sort_order = params[:sort_order]
-    @query = params[:query]
-    @status = params[:status]
-    @published = params[:published]
-    @limit = params[:limit]
-    
     @posts = if !!@project
       @project.posts
     else
@@ -126,5 +119,35 @@ private
     attributes = [:status, :slug, :project_id, :status, :notes, :published]
     
     params.require(:post).permit *attributes
+  end
+  
+  def init_params
+    @project_id = session[:posts_project_id]
+    @sort_field = session[:posts_sort_field]
+    @sort_order = session[:posts_sort_order]
+    @query = session[:posts_query]
+    @status = session[:posts_status]
+    @published = session[:posts_published]
+    @limit = session[:posts_limit]
+    
+    @project = Project.find params[:project_id] if params[:project_id]
+    
+    if !!params[:sort_field] || !!params[:sort_order] || !!params[:query] ||
+      !!params[:status] || !!params[:published] || !!params[:limit]
+      @sort_field = params[:sort_field]
+      @sort_order = params[:sort_order]
+      @query = params[:query]
+      @status = params[:status]
+      @published = params[:published]
+      @limit = params[:limit]
+    end
+    
+    session[:posts_project_id] = @project_id
+    session[:posts_sort_field] = @sort_field
+    session[:posts_sort_order] = @sort_order
+    session[:posts_query] = @query
+    session[:posts_status] = @status
+    session[:posts_published] = @published
+    session[:posts_limit] = @limit
   end
 end
