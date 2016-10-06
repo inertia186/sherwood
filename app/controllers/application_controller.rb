@@ -11,8 +11,8 @@ class ApplicationController < ActionController::Base
   helper_method :authors, :find_author, :author_latest_post_,
     :author_latest_post_class, :author_latest_post_timestamp
     
-  rescue_from RestClient::BadGateway, with: :steem_api_error
-  rescue_from RestClient::RequestTimeout, with: :steem_api_error
+  # rescue_from RestClient::BadGateway, with: :steem_api_error
+  # rescue_from RestClient::RequestTimeout, with: :steem_api_error
 private
   def steem_api_error
     # TODO Implement something like this:

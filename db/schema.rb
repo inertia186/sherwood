@@ -10,7 +10,39 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160911065050) do
+ActiveRecord::Schema.define(version: 20160919202123) do
+
+  create_table "bucket_blocks", force: :cascade do |t|
+    t.integer  "block_number",            null: false
+    t.string   "previous",                null: false
+    t.datetime "timestamp",               null: false
+    t.string   "transaction_merkle_root", null: false
+    t.string   "witness",                 null: false
+    t.string   "witness_signature",       null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.index ["block_number"], name: "index_bucket_blocks_on_block_number", unique: true
+  end
+
+  create_table "bucket_operations", force: :cascade do |t|
+    t.string   "type",           null: false
+    t.integer  "transaction_id", null: false
+    t.string   "payload",        null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.index ["transaction_id"], name: "index_bucket_operations_on_transaction_id"
+    t.index ["type"], name: "index_bucket_operations_on_type"
+  end
+
+  create_table "bucket_transactions", force: :cascade do |t|
+    t.integer  "block_id",                   null: false
+    t.integer  "ref_block_num",              null: false
+    t.integer  "ref_block_prefix", limit: 8, null: false
+    t.datetime "expiration",                 null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.index ["block_id"], name: "index_bucket_transactions_on_block_id"
+  end
 
   create_table "memberships", force: :cascade do |t|
     t.integer  "project_id", null: false

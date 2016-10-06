@@ -37,7 +37,8 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'haml', '~> 4.0.7'
 
 # Access the STEEM blockchain.
-gem 'radiator', github: 'inertia186/radiator'
+gem 'radiator', '~> 0.0.4', github: 'inertia186/radiator'
+gem 'crab-bucket', '~> 0.0.4', github: 'inertia186/crab-bucket'
 
 gem 'rdiscount'
 
