@@ -8,8 +8,8 @@ class ApplicationController < ActionController::Base
   helper_method :markdown
   helper_method :current_user, :current_project, :current_user_has_membership?
   
-  helper_method :authors, :find_author, :author_latest_post_,
-    :author_latest_post_class, :author_latest_post_timestamp
+  helper_method :authors, :find_author, :author_latest_post,
+    :author_latest_post_timestamp
     
   # rescue_from RestClient::BadGateway, with: :steem_api_error
   # rescue_from RestClient::RequestTimeout, with: :steem_api_error
@@ -88,17 +88,6 @@ private
   
   def find_author(author_names, author_name)
     authors(author_names).select { |a| a.name == author_name }.last
-  end
-  
-  def author_latest_post_class(author_names, author_name)
-    a = find_author(author_names, author_name)
-    date = Time.parse(a.last_root_post + " UTC")
-    
-    if 24.hours.ago > date
-      'btn btn-xs btn-secondary'
-    else
-      'btn btn-xs btn-success'
-    end
   end
   
   def author_latest_post(author_names, author_name)
