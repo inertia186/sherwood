@@ -1,7 +1,7 @@
 module ApplicationHelper
-  def project_stats(project)
-    if project.posts.any?
-      "Latest post created #{time_ago_in_words project.posts.maximum(:created_at)} ago."
+  def project_stats(project, posts)
+    if posts.any?
+      "Showing post created #{time_ago_in_words posts.maximum(:created_at)} ago."
     else
       "No posts."
     end

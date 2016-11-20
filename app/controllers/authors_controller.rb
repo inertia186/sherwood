@@ -3,6 +3,7 @@ class AuthorsController < ApplicationController
   
   def index
     @minutes = (params[:minutes].presence || 1440).to_i
+    @max_featured = (params[:max_featured].presence || 0).to_i
     @project = Project.find params[:project_id]
     @excluded_authors = @project.posts.
       created(@project.feature_duration_in_days.days.ago).
@@ -14,13 +15,13 @@ class AuthorsController < ApplicationController
     @latest_authors = @authors.select do |author|
       author_latest_post(@authors, author) > @minutes.minutes.ago
     end.sort_by do |author|
-      author_latest_post_timestamp(@authors, author).to_i
-    end
+      author_latest_post(@authors, author)
+    end.reverse
     @oldest_authors = @authors.select do |author|
       author_latest_post(@authors, author) < @minutes.minutes.ago
     end.sort_by do |author|
-      author_latest_post_timestamp(@authors, author)
-    end
+      author_latest_post(@authors, author)
+    end.reverse
   end
   
   def index_card

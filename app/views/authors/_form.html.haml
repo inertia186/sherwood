@@ -10,12 +10,16 @@ ago.  Their posts have been published and not rejected.
       %h5 Authors posting in the last #{hours(@minutes)}:
       - @latest_authors.each do |author|
         = link_to "@#{author} #{author_latest_post_timestamp(@authors, author)}",
-        "https://steemit.com/@#{author}", class: author_latest_post_class(@minutes, @authors, author)
+        "https://steemit.com/@#{author}",
+        uib_tooltip: author_featured_count_tip(@project, author),
+        class: author_latest_post_class(@project, @minutes, @authors, author)
       %hr
       %h5 Authors posting before the last #{hours(@minutes)}:
       - @oldest_authors.each do |author|
         = link_to "@#{author} #{author_latest_post_timestamp(@authors, author)}",
-        "https://steemit.com/@#{author}", class: author_latest_post_class(@minutes, @authors, author)
+        "https://steemit.com/@#{author}",
+        uib_tooltip: author_featured_count_tip(@project, author),
+        class: author_latest_post_class(@project, @minutes, @authors, author)
     .col-sm-6
       .row
         .col-sm-6

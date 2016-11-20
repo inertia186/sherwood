@@ -6,9 +6,9 @@ class PostsController < ApplicationController
   
   def index
     @posts = if !!@project
-      @project.posts
+      @project.posts.this_week
     else
-      Post.all
+      Post.all.this_week
     end
     
     @posts = @posts.query(@query) if @query.present?

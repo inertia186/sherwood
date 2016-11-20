@@ -29,6 +29,9 @@ class Post < ActiveRecord::Base
   
   scope :published, lambda { |published = true| where published: published }
   
+  scope :this_week, -> { where("posts.created_at > ?", Time.now.beginning_of_week.advance(days: -1)) }
+  scope :this_month, -> { where("posts.created_at > ?", Time.now.beginning_of_month) }
+  
   scope :in_cooldown, lambda { |author, cooldown|
     published.where(steem_author: author).created(cooldown)
   }

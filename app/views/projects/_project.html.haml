@@ -1,3 +1,5 @@
+- posts = project.posts.this_week
+
 .card
   .card-block
     .card-title
@@ -12,7 +14,7 @@
       %code= project.code
         
   .card-block
-    = link_to "Posts (#{project.posts.count})", project_posts_path(project), class: 'btn btn-primary btn-sm', uib_tooltip: project_stats(project)
+    = link_to "Posts (#{posts.count})", project_posts_path(project), class: 'btn btn-primary btn-sm', uib_tooltip: project_stats(project, posts)
     - if current_user_has_membership?(project)
       = link_to 'Edit', edit_project_path(project), class: 'btn btn-info btn-sm card-link'
       = link_to 'Delete', project_path(project), method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-danger btn-sm card-link pull-xs-right'

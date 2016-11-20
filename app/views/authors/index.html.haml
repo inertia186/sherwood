@@ -1,3 +1,15 @@
 %h3 Authors
 
-= render partial: 'form', locals: {project: @project}
+= form_tag project_authors_path(@project), method: :get do
+  .row
+    .col-sm-4
+      Minutes:
+      = number_field_tag :minutes, @minutes, class: 'form-control'
+    .col-sm-4
+      Max Featured:
+      = number_field_tag :max_featured, @max_featured, class: 'form-control'
+    .col-sm-4
+    = submit_tag 'Query', class: 'btn btn-xs btn-primary'
+
+.row
+  .col-sm-12= render partial: 'form', locals: {project: @project}

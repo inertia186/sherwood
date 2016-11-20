@@ -1,7 +1,9 @@
 %hr
 .row
   .col-sm-3
-    %h1= pluralize @posts.except(:select).count, 'Post'
+    %h3
+      = pluralize @posts.except(:select).count, 'Post'
+      (this week)
 
   .col-sm-9
     = form_tag url_for(action: controller.action_name), method: :get do

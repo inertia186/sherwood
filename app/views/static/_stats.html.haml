@@ -1,12 +1,14 @@
-%p= project_stats(project)
-- if (p = project.posts.accepted.published.created(24.hours.ago)).any?
+- posts = project.posts.this_week
+
+%p= project_stats(project, posts)
+- if (p = posts.accepted.published.created(24.hours.ago)).any?
   %p
     Posts today:
     = p.count
     = surround '(', ')' do
       = "$%.2f" % p.map(&:best_payout_value).sum
 
-- cache ['stats', project, (report = project.posts.group(:editing_user_id, :status, :published).order(:status).count)] do
+- cache ['stats', project, (report = posts.group(:editing_user_id, :status, :published).order(:status).count)] do
   %table.table.table-sm.table-striped
     %tr
       %thead.thead-inverse

@@ -1,25 +1,29 @@
+- posts = project.posts.this_week
+
 %ul.list-group
-  %li.list-group-item{class: (count = project.posts.submitted.count) == 0 ? 'list-group-item-info' : 'list-group-item-warning'}
+  %li.list-group-item{class: (count = posts.submitted.count) == 0 ? 'list-group-item-info' : 'list-group-item-warning'}
     = link_to project_posts_path(project, status: 'submitted') do
       Submitted
       .label.label-default.label-pill.pull-xs-right= count
-  %li.list-group-item{class: (count = project.posts.accepted.published(false).count) == 0 ? 'list-group-item-info' : 'list-group-item-warning'}
+  %li.list-group-item{class: (count = posts.accepted.published(false).count) == 0 ? 'list-group-item-info' : 'list-group-item-warning'}
     = link_to project_posts_path(project, status: 'accepted', published: false) do
       Accepted, Unpublished
       .label.label-default.label-pill.pull-xs-right= count
   %li.list-group-item.list-group-item-info
     = link_to project_posts_path(project, status: 'accepted', published: true, sort_field: 'created_at', sort_order: 'desc') do
       Accepted, Published
-      .label.label-default.label-pill.pull-xs-right= project.posts.accepted.published.count
+      .label.label-default.label-pill.pull-xs-right= posts.accepted.published.count
   %li.list-group-item.list-group-item-info
     = link_to project_posts_path(project, status: 'rejected', published: false) do
       Rejected, Unpublished
-      .label.label-default.label-pill.pull-xs-right= project.posts.rejected.published(false).count
-  %li.list-group-item{class: (count = project.posts.rejected.published.count) == 0 ? 'list-group-item-info' : 'list-group-item-danger'}
+      .label.label-default.label-pill.pull-xs-right= posts.rejected.published(false).count
+  %li.list-group-item{class: (count = posts.rejected.published.count) == 0 ? 'list-group-item-info' : 'list-group-item-danger'}
     = link_to project_posts_path(project, status: 'rejected', published: true) do
       Rejected, Published
       .label.label-default.label-pill.pull-xs-right= count
   %li.list-group-item{class: 'list-group-item-info'}
     = link_to project_posts_path(project, sort_field: 'created_at', sort_order: 'desc') do
       All Posts
-      .label.label-default.label-pill.pull-xs-right= project.posts.count
+      .label.label-default.label-pill.pull-xs-right= posts.count
+
+%p These totals are for the week starting: #{Time.now.beginning_of_week.advance(days: -1).strftime('%Y-%m-%d')}
