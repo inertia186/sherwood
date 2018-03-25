@@ -33,6 +33,5 @@ Rails.application.routes.draw do
 
   get 'dashboard' => 'static#dashboard', as: :dashboard
   get 'faq' => 'static#faq', as: :faq
-  
-  mount Bucket::Engine, at: "/crab_bucket"
 end
+

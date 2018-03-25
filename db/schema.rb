@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160919202123) do
+ActiveRecord::Schema.define(version: 20170501201858) do
 
   create_table "bucket_blocks", force: :cascade do |t|
     t.integer  "block_number",            null: false
@@ -25,11 +25,12 @@ ActiveRecord::Schema.define(version: 20160919202123) do
   end
 
   create_table "bucket_operations", force: :cascade do |t|
-    t.string   "type",           null: false
-    t.integer  "transaction_id", null: false
-    t.string   "payload",        null: false
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.string   "type",                        null: false
+    t.integer  "transaction_id"
+    t.string   "payload",                     null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.integer  "block_id",       default: -1, null: false
     t.index ["transaction_id"], name: "index_bucket_operations_on_transaction_id"
     t.index ["type"], name: "index_bucket_operations_on_type"
   end

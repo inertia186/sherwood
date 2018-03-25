@@ -1,10 +1,11 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
+gem 'rails', '~> 5.1.1'
 
 # Use sqlite3 as the database for Active Record
-gem 'sqlite3'
+# gem 'sqlite3'
+gem 'mysql2'
 
 # Use Puma as the app server
 gem 'puma', '~> 3.0'
@@ -24,8 +25,7 @@ gem 'jquery-rails'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'
 
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'responders', '~> 2.2.0'
+gem 'responders'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.5'
@@ -37,8 +37,11 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'haml', '~> 4.0.7'
 
 # Access the STEEM blockchain.
-gem 'radiator', '~> 0.0.5', github: 'inertia186/radiator'
-gem 'crab-bucket', '~> 0.0.5', github: 'inertia186/crab-bucket'
+gem 'radiator'
+#gem 'crab-bucket', path: '../crab_bucket'
+gem 'sbds-rails', require: 'sbds'
+#gem 'sbds-rails', path: '../sbds-rails', require: 'sbds'
+# gem 'crab-bucket'
 
 gem 'rdiscount'
 
